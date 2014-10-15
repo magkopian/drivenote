@@ -1,0 +1,9 @@
+*~
+
+.buildpath
+.project
+includes/config.php
+
+.settings/
+keys/
+vendor/
