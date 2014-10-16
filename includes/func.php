@@ -9,8 +9,8 @@ function api_auth ( Google_Client $client, $token = null ) {
 		$client->setAccessToken($token);
 	}
 	
-	$key = file_get_contents(KEY_FILENAME);
-	$credentials = new Google_Auth_AssertionCredentials(SERVICE_ACCOUNT_NAME, array(API_SCOPE), $key);
+	$key = file_get_contents(SERVICE_KEY_FILENAME);
+	$credentials = new Google_Auth_AssertionCredentials(SERVICE_ACCOUNT_NAME, array(SERVICE_API_SCOPE), $key);
 	$client->setAssertionCredentials($credentials);
 	
 	if( $client->getAuth()->isAccessTokenExpired() ) {

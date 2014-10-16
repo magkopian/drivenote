@@ -1,14 +1,10 @@
 <?php
 
-require_once '../vendor/autoload.php';
-require_once '../includes/config.php';
-require_once '../includes/func.php';
-
-session_start();
+require_once '../includes/init.php';
 
 // First, we authorize the application
 $client = new Google_Client();
-$client->setApplicationName('CSE Google Drive');
+$client->setApplicationName(APP_NAME);
 
 if ( isset($_SESSION['service_token']) ) {
 	$_SESSION['service_token'] = api_auth($client, $_SESSION['service_token']);
