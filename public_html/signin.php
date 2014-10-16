@@ -1,13 +1,4 @@
-<?php 
-
-require_once '../includes/init.php';
-
-$googleClient = new Google_Client();
-$googleClient->setApplicationName(APP_NAME);
-
-$auth = new GoogleAuth($googleClient);
-
-?>
+<?php require_once '../includes/init.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

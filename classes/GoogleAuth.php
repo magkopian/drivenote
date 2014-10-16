@@ -31,14 +31,10 @@ class GoogleAuth {
 		}
 		
 		if ( $db === null ) {
-			
 			$this->db = Database::getInstance();
-			
 		}
 		else {
-			
 			$this->db = $db;
-			
 		}
 		
 	}
@@ -53,15 +49,9 @@ class GoogleAuth {
 		
 	}
 	
-	public function getAuthURL () {
-		
-		return $this->client->createAuthUrl();
-		
-	}
-	
 	public function signIn ( $code ) {
 		
-		// User already signed in
+		// If user already signed in
 		if ( $this->accessToken !== null ) {
 			return false;
 		}
@@ -71,19 +61,19 @@ class GoogleAuth {
 		$this->accessToken = $this->client->getAccessToken();
 		$this->client->setAccessToken($this->accessToken);
 		
-		if ( $this->client->isAccessTokenExpired() === false ) {
-			
-			$_SESSION[$this->sessionName] = $this->accessToken;
-			
-			// Store user data into database
-			$this->addUser();
-			
-			return true;
-			
+		// If access token is expired
+		if ( $this->client->isAccessTokenExpired() ) {
+			$this->accessToken = null;
+			return false;
 		}
 		
-		$this->accessToken = null;
-		return false;
+		// Store user data into database
+		$this->addUser();
+			
+		// Register the session
+		$_SESSION[$this->sessionName] = $this->accessToken;
+			
+		return true;
 		
 	}
 	
@@ -100,15 +90,21 @@ class GoogleAuth {
 		
 	}
 	
+	public function getAuthURL () {
+	
+		return $this->client->createAuthUrl();
+	
+	}
+	
 	private function addUser () {
 		
-		$userData = $this->client->verifyIdToken()->getAttributes();
-		
-		$query = 'INSERT INTO `user` (`google_id`, `google_email`)
-				  VALUES (:google_id, :google_email)
-				  ON DUPLICATE KEY UPDATE `google_id` = :google_id_2'; // On duplicate google_id do nothing
-		
 		try {
+			$userData = $this->client->verifyIdToken()->getAttributes();
+			
+			$query = 'INSERT INTO `user` (`google_id`, `google_email`)
+					  VALUES (:google_id, :google_email)
+					  ON DUPLICATE KEY UPDATE `google_id` = :google_id_2'; // On duplicate google_id do nothing
+			
 			$preparedStatement = $this->db->prepare($query);
 			
 			$preparedStatement->execute( array(
@@ -117,11 +113,17 @@ class GoogleAuth {
 				':google_id_2' => $userData['payload']['id']
 			));
 		}
-		catch ( PDOException $e ) {
+		catch ( Google_AuthException $e ) {
 			// Log the error
 			//...
 			
-			throw new Exception('Internal error, unable to insert user.');
+			throw new Exception('Internal error, unable to verify id_token. Please contact the administrator.');
+		}
+		catch ( PDOException $e ) {
+			// Log the error
+			//...
+				
+			throw new Exception('Internal error, unable to insert user. Please contact the administrator.');
 		}
 		
 	}
