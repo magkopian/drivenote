@@ -8,6 +8,7 @@ session_start();
 
 // First, we authorize the application
 $client = new Google_Client();
+$client->setApplicationName('CSE Google Drive');
 
 if ( isset($_SESSION['service_token']) ) {
 	$_SESSION['service_token'] = api_auth($client, $_SESSION['service_token']);
