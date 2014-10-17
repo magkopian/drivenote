@@ -27,9 +27,15 @@ if ( preg_match($regex, $academic_email) ) {
 		}
 		
 		echo $message = 'Click to the link below to verify your account ' . $auth->getVerifyURL($academic_email);
+		die();
 		
-		//$mailer = new Mailer();
-		//$mailer->send($academic_email, 'Drivenote | Account Verification', $message);
+		$mailer = new Mailer();
+		$mailer->send($academic_email, 'Drivenote | Account Verification', $message);
+		
+		Notifier::push('success', 'A verification email has been sent to your academic email. Please check your inbox.');
+		header('Location: /');
+		die();
+		
 	}
 	catch ( Exception $e ) {
 		Notifier::push('error', 'Couldn\'t send verification email. Please contact the administrator.');
