@@ -36,7 +36,7 @@ class GoogleDrive extends GoogleService {
 		
 	}
 	
-	public function grantReadAccess ( $googleEmail ) {
+	public function grantReadAccess ( $googleEmail, $fileId ) {
 	
 		// Create a new permition object to give read access to a user
 		$permition = new Google_Service_Drive_Permission();
@@ -46,16 +46,41 @@ class GoogleDrive extends GoogleService {
 	
 		// Apply the permition to the file/directory
 		$permissions = $this->service->permissions;
-		$permissions->insert(DIRECTORY_ID, $permition);
+		$permissions->insert($fileId, $permition);
 	
 	}
 	
-	public function revokeReadAccess ( $googleEmail ) {
+	public function revokeReadAccess ( $googleEmail, $fileId ) {
 	
 		$permissionId = $this->service->permissions->getIdForEmail($googleEmail);
 	
-		$this->service->permissions->delete(DIRECTORY_ID, $permissionId->getId());
+		$this->service->permissions->delete($fileId, $permissionId->getId());
 	
+	}
+	
+	public function redirect ( $fileId ) {
+		
+		$fileMetadata = $this->getFileMetadata($fileId);
+		if ( !isset($fileMetadata['driveLink']) || empty($fileMetadata['driveLink']) ) {
+			return false;
+		}
+		
+		header('Location: ' . $fileMetadata['driveLink']);
+		
+	}
+	
+	public function getFileMetadata ( $fileId ) {
+
+		$file = $this->service->files->get($fileId);
+
+		return array (
+			'filename' => $file->getTitle(),
+			'description' => $file->getDescription(),
+			'mimeType' => $file->getMimeType(),
+			'driveLink' => $file->getAlternateLink(),
+			'downloadUrl' => $file->getDownloadUrl()
+		);
+
 	}
 	
 	public function listFiles () {
