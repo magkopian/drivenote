@@ -1,8 +1,8 @@
-<?php require_once '../includes/init.php';
+<?php require_once '../src/init.php';
 
 if ( $auth->isSignedIn() === true ) {
 	$auth->signOut();
 }
 
-header('Location: signin.php');
+header('Location: /');
 die();

@@ -2,6 +2,7 @@
 
 class GoogleAuth extends GoogleService {
 	protected $sessionName = 'WEBAPP_ACCESS_TOKEN';
+	protected $userIdSession = 'USER_ID';
 	
 	public function __construct ( Google_Client $client ) {
 		
@@ -61,8 +62,8 @@ class GoogleAuth extends GoogleService {
 		}
 		
 		// Store user data into database
-		$this->addUser();
-			
+		$_SESSION[$this->userIdSession] = $this->addUser();
+
 		// Register the session
 		$_SESSION[$this->sessionName] = $this->accessToken;
 			
@@ -78,8 +79,36 @@ class GoogleAuth extends GoogleService {
 		}
 		
 		unset($_SESSION[$this->sessionName]);
+		unset($_SESSION[$this->userIdSession]);
 		$this->accessToken = null;
 		return true;
+		
+	}
+	
+	public function academicEmailExists ( $academicEmail ) {
+		
+		$query = 'SELECT `user_id` FROM `user` WHERE `academic_email` = :academic_email AND `user_id` != :user_id';
+		
+		try {
+			$preparedStatement = $this->db->prepare($query);
+		
+			$preparedStatement->execute( array(
+				':academic_email' => $academicEmail,
+				':user_id' => $_SESSION[$this->userIdSession]
+			));
+				
+			if ( $preparedStatement->rowCount() != 0 ) {
+				return true;
+			}
+			
+			return false;
+		}
+		catch ( PDOException $e ) {
+			// Log the error
+			//...
+		
+			throw new Exception('Database error, unable check if academic email exists.');
+		}
 		
 	}
 	
@@ -89,6 +118,37 @@ class GoogleAuth extends GoogleService {
 	
 	}
 	
+	public function getVerifyURL ( $academicEmail ) {
+		
+		if ( $this->isSignedIn() === false ) {
+			throw new Exception('GoogleAuth::getVerifyURL method got called while user wasn\'t authenticated');
+		}
+		
+		$verifyEmailToken = md5(uniqid(null, true));
+		
+		$query = 'UPDATE `user` SET `academic_email` = :academic_email, `token` = :token 
+				  WHERE `user_id` = :user_id';
+		
+		try {	
+			$preparedStatement = $this->db->prepare($query);
+				
+			$preparedStatement->execute( array(
+				':token' => $verifyEmailToken,
+				':academic_email' => $academicEmail,
+				':user_id' => $_SESSION[$this->userIdSession]
+			));
+			
+			return 'http://' . DOMAIN . '/verify-account.php?token=' . $verifyEmailToken . '&uid=' . $_SESSION[$this->userIdSession];
+		}
+		catch ( PDOException $e ) {
+			// Log the error
+			//...
+		
+			throw new Exception('Database error, unable to insert email verify token.');
+		}
+		
+	}
+	
 	private function addUser () {
 		
 		try {
@@ -96,27 +156,28 @@ class GoogleAuth extends GoogleService {
 			
 			$query = 'INSERT INTO `user` (`google_id`, `google_email`)
 					  VALUES (:google_id, :google_email)
-					  ON DUPLICATE KEY UPDATE `google_id` = :google_id_2'; // On duplicate google_id do nothing
+					  ON DUPLICATE KEY UPDATE `user_id` = LAST_INSERT_ID(`user_id`)'; // On duplicate google_id do nothing
 			
 			$preparedStatement = $this->db->prepare($query);
 			
 			$preparedStatement->execute( array(
 				':google_id' => $userData['payload']['id'],
-				':google_email' => $userData['payload']['email'],
-				':google_id_2' => $userData['payload']['id']
+				':google_email' => $userData['payload']['email']
 			));
+			
+			return $this->db->lastInsertId();
 		}
 		catch ( Google_AuthException $e ) {
 			// Log the error
 			//...
 			
-			throw new Exception('Internal error, unable to verify id_token. Please contact the administrator.');
+			throw new Exception('Auth error, unable to verify id_token.');
 		}
 		catch ( PDOException $e ) {
 			// Log the error
 			//...
-				
-			throw new Exception('Internal error, unable to insert user. Please contact the administrator.');
+
+			throw new Exception('Database error, unable to insert user.');
 		}
 		
 	}
