@@ -2,7 +2,7 @@
 
 .buildpath
 .project
-includes/config.php
+src/config.php
 
 .settings/
 keys/

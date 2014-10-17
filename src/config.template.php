@@ -1,5 +1,6 @@
 <?php
-define('APP_NAME', 'CSE Google Drive'); // The application name
+define('APP_NAME', 'Drivenote'); // The application name
+define('DOMAIN', '');
 
 define('SERVICE_CLIENT_ID', ''); // Client ID of service account
 define('SERVICE_ACCOUNT_NAME', ''); // Email Address of service account
@@ -19,3 +20,11 @@ define('DB_HOST', '');
 define('DB_NAME', '');
 define('DB_USER', '');
 define('DB_PASSWD', '');
+
+define('SMTP_USER', '');
+define('SMTP_PASSWD', '');
+define('SMTP_HOST', '');
+define('SMTP_CHARSET', 'UTF-8');
+define('SMTP_PORT', '');
+define('SMTP_AUTH', true); // Enable SMTP authentication
+define('SMTP_ENCRYPTION', 'tls'); // 'ssl' also accepted
