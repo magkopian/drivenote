@@ -1,11 +1,9 @@
 <?php
 
-class GoogleAuth {
-	private $client = null;
-	private $accessToken = null;
-	private $sessionName = 'WEBAPP_ACCESS_TOKEN';
+class GoogleAuth extends GoogleService {
+	protected $sessionName = 'WEBAPP_ACCESS_TOKEN';
 	
-	public function __construct( Google_Client $client, Database $db = null ) {
+	public function __construct ( Google_Client $client ) {
 		
 		$this->client = $client;
 		
@@ -30,12 +28,7 @@ class GoogleAuth {
 			
 		}
 		
-		if ( $db === null ) {
-			$this->db = Database::getInstance();
-		}
-		else {
-			$this->db = $db;
-		}
+		$this->db = Database::getInstance();
 		
 	}
 	
