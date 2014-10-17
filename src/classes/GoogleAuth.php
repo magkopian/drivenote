@@ -33,6 +33,43 @@ class GoogleAuth extends GoogleService {
 		
 	}
 	
+	public function isVerified () {
+		
+		if ( $this->isSignedIn() === false ) {
+			return false;
+		}
+		
+		$query = 'SELECT `verified` FROM `user` WHERE `user_id` = :user_id';
+		
+		try {
+			$preparedStatement = $this->db->prepare($query);
+		
+			$preparedStatement->execute( array(
+				':user_id' => $_SESSION[$this->userIdSession]
+			));
+		
+			if ( $preparedStatement->rowCount() == 0 ) {
+				return false;
+			}
+				
+			$res = $preparedStatement->fetch(PDO::FETCH_ASSOC);
+			
+			if ( $res['verified'] == 1 ) {
+				return true;
+			}
+			
+			return false;
+			
+		}
+		catch ( PDOException $e ) {
+			// Log the error
+			//...
+		
+			throw new Exception('Database error, unable check if academic email exists.');
+		}
+		
+	}
+	
 	public function isSignedIn () {
 		
 		if ( $this->accessToken === null ) {
@@ -85,33 +122,6 @@ class GoogleAuth extends GoogleService {
 		
 	}
 	
-	public function academicEmailExists ( $academicEmail ) {
-		
-		$query = 'SELECT `user_id` FROM `user` WHERE `academic_email` = :academic_email AND `user_id` != :user_id';
-		
-		try {
-			$preparedStatement = $this->db->prepare($query);
-		
-			$preparedStatement->execute( array(
-				':academic_email' => $academicEmail,
-				':user_id' => $_SESSION[$this->userIdSession]
-			));
-				
-			if ( $preparedStatement->rowCount() != 0 ) {
-				return true;
-			}
-			
-			return false;
-		}
-		catch ( PDOException $e ) {
-			// Log the error
-			//...
-		
-			throw new Exception('Database error, unable check if academic email exists.');
-		}
-		
-	}
-	
 	public function getAuthURL () {
 	
 		return $this->client->createAuthUrl();
@@ -119,10 +129,6 @@ class GoogleAuth extends GoogleService {
 	}
 	
 	public function getVerifyURL ( $academicEmail ) {
-		
-		if ( $this->isSignedIn() === false ) {
-			throw new Exception('GoogleAuth::getVerifyURL method got called while user wasn\'t authenticated');
-		}
 		
 		$verifyEmailToken = md5(uniqid(null, true));
 		
@@ -145,6 +151,81 @@ class GoogleAuth extends GoogleService {
 			//...
 		
 			throw new Exception('Database error, unable to insert email verify token.');
+		}
+		
+	}
+	
+	public function isVerifyTokenExpired ( $userId, $verifyEmailToken ) {
+		
+		$query = 'SELECT `user_id` FROM `user` WHERE `user_id` = :user_id AND `token` = :token';
+		
+		try {
+			$preparedStatement = $this->db->prepare($query);
+		
+			$preparedStatement->execute( array(
+				':token' => $verifyEmailToken,
+				':user_id' => $userId
+			));
+			
+			if ( $preparedStatement->rowCount() == 0 ) {
+				return true;
+			}
+			
+			return false;
+		}
+		catch ( PDOException $e ) {
+			// Log the error
+			//...
+		
+			throw new Exception('Database error, unable to verify email.');
+		}
+		
+	}
+	
+	public function isVerifiedEmailExists ( $academicEmail ) {
+		
+		$query = 'SELECT `user_id` FROM `user` WHERE `academic_email` = :academic_email AND `verified` = 1';
+		
+		try {
+			$preparedStatement = $this->db->prepare($query);
+		
+			$preparedStatement->execute( array(
+				':academic_email' => $academicEmail
+			));
+			
+			if ( $preparedStatement->rowCount() == 0 ) {
+				return false;
+			}
+			
+			return true;
+		}
+		catch ( PDOException $e ) {
+			// Log the error
+			//...
+		
+			throw new Exception('Database error, unable to check if verified email exists.');
+		}
+		
+	}
+	
+	public function verify ( $userId, $verifyEmailToken ) {
+		
+		$query = 'UPDATE `user` SET `verified` = 1, `token` = NULL 
+				  WHERE `user_id` = :user_id AND `token` = :token';
+		
+		try {	
+			$preparedStatement = $this->db->prepare($query);
+				
+			$preparedStatement->execute( array(
+				':token' => $verifyEmailToken,
+				':user_id' => $userId
+			));
+		}
+		catch ( PDOException $e ) {
+			// Log the error
+			//...
+		
+			throw new Exception('Database error, unable to verify email.');
 		}
 		
 	}

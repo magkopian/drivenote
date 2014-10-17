@@ -17,24 +17,22 @@
 	
 	<?php if ( $auth->isSignedIn() === false ): ?>
 		<a href="<?php echo $auth->getAuthURL(); ?>" title="Click to Sign in">Sign in with Google</a>
-	<?php else: ?>
+	<?php elseif ( $auth->isVerified() === false ): ?>
 		<a href="signout.php" title="Click to Sign out">Sign out</a>
 		<form action="activate-account.php" method="post">
 			<label for="academic_emal">Academic Email:</label>
 			<input type="text" name="academic_email" id="academic_email">
 			<input type="submit" value="Verify Account">
 		</form>
+	<?php else: ?>
+		<a href="signout.php" title="Click to Sign out">Sign out</a>
 	<?php endif; ?>
 </body>
 </html>
 
 
-
-
-
-<?php //require_once '../src/init.php';
-
-
+<?php 
+//require_once '../src/init.php';
 
 //$drive = new GoogleDrive($googleClient);
 
