@@ -1,6 +1,6 @@
 <?php require_once '../src/init.php';
 
-if ( !isset($_GET['code']) || empty($_GET['code']) || $auth->isSignedIn() ) {
+if ( !isset($_GET['code']) || empty($_GET['code']) || $user->isSignedIn() ) {
 	header('Location: /');
 	die();
 }

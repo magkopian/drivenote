@@ -2,12 +2,14 @@
 
 class GoogleAuth extends GoogleService {
 	protected $sessionName = 'WEBAPP_ACCESS_TOKEN';
-	protected $userIdSession = 'USER_ID';
+	protected $user = null;
 	
-	public function __construct ( Google_Client $client ) {
+	public function __construct ( Google_Client $client, User $user, Database $db ) {
+		
+		$this->user = $user;
+		$this->db = $db;
 		
 		$this->client = $client;
-		
 		$this->client->setClientId(WEBAPP_CLIENT_ID);
 		$this->client->setClientSecret(WEBAPP_SECRET);
 		$this->client->setRedirectUri(WEBAPP_REDIRECT_URI);
@@ -22,6 +24,7 @@ class GoogleAuth extends GoogleService {
 			// And we check if it's still valid
 			if ( $this->client->isAccessTokenExpired() ) {
 				unset($_SESSION[$this->sessionName]);
+				$this->user->destroy();
 			}
 			else {
 				$this->accessToken = $_SESSION[$this->sessionName];
@@ -29,55 +32,12 @@ class GoogleAuth extends GoogleService {
 			
 		}
 		
-		$this->db = Database::getInstance();
-		
 	}
 	
-	public function isVerified () {
-		
-		if ( $this->isSignedIn() === false ) {
-			return false;
-		}
-		
-		$query = 'SELECT `verified` FROM `user` WHERE `user_id` = :user_id';
-		
-		try {
-			$preparedStatement = $this->db->prepare($query);
-		
-			$preparedStatement->execute( array(
-				':user_id' => $_SESSION[$this->userIdSession]
-			));
-		
-			if ( $preparedStatement->rowCount() == 0 ) {
-				return false;
-			}
-				
-			$res = $preparedStatement->fetch(PDO::FETCH_ASSOC);
-			
-			if ( $res['verified'] == 1 ) {
-				return true;
-			}
-			
-			return false;
-			
-		}
-		catch ( PDOException $e ) {
-			// Log the error
-			//...
-		
-			throw new Exception('Database error, unable check if academic email exists.');
-		}
-		
-	}
+	public function getAuthURL () {
 	
-	public function isSignedIn () {
-		
-		if ( $this->accessToken === null ) {
-			return false;
-		}
-		
-		return true;
-		
+		return $this->client->createAuthUrl();
+	
 	}
 	
 	public function signIn ( $code ) {
@@ -99,11 +59,14 @@ class GoogleAuth extends GoogleService {
 		}
 		
 		// Store user data into database
-		$_SESSION[$this->userIdSession] = $this->addUser();
+		$userId = $this->addUser();
 
 		// Register the session
 		$_SESSION[$this->sessionName] = $this->accessToken;
-			
+		
+		// Instantiate an authenticated user
+		$this->user->instantiate($userId);
+		
 		return true;
 		
 	}
@@ -116,117 +79,10 @@ class GoogleAuth extends GoogleService {
 		}
 		
 		unset($_SESSION[$this->sessionName]);
-		unset($_SESSION[$this->userIdSession]);
 		$this->accessToken = null;
+		$this->user->destroy();
+		
 		return true;
-		
-	}
-	
-	public function getAuthURL () {
-	
-		return $this->client->createAuthUrl();
-	
-	}
-	
-	public function getVerifyURL ( $academicEmail ) {
-		
-		$verifyEmailToken = md5(uniqid(null, true));
-		
-		$query = 'UPDATE `user` SET `academic_email` = :academic_email, `token` = :token 
-				  WHERE `user_id` = :user_id';
-		
-		try {	
-			$preparedStatement = $this->db->prepare($query);
-				
-			$preparedStatement->execute( array(
-				':token' => $verifyEmailToken,
-				':academic_email' => $academicEmail,
-				':user_id' => $_SESSION[$this->userIdSession]
-			));
-			
-			return 'http://' . DOMAIN . '/verify-account.php?token=' . $verifyEmailToken . '&uid=' . $_SESSION[$this->userIdSession];
-		}
-		catch ( PDOException $e ) {
-			// Log the error
-			//...
-		
-			throw new Exception('Database error, unable to insert email verify token.');
-		}
-		
-	}
-	
-	public function isVerifyTokenExpired ( $userId, $verifyEmailToken ) {
-		
-		$query = 'SELECT `user_id` FROM `user` WHERE `user_id` = :user_id AND `token` = :token';
-		
-		try {
-			$preparedStatement = $this->db->prepare($query);
-		
-			$preparedStatement->execute( array(
-				':token' => $verifyEmailToken,
-				':user_id' => $userId
-			));
-			
-			if ( $preparedStatement->rowCount() == 0 ) {
-				return true;
-			}
-			
-			return false;
-		}
-		catch ( PDOException $e ) {
-			// Log the error
-			//...
-		
-			throw new Exception('Database error, unable to verify email.');
-		}
-		
-	}
-	
-	public function isVerifiedEmailExists ( $academicEmail ) {
-		
-		$query = 'SELECT `user_id` FROM `user` WHERE `academic_email` = :academic_email AND `verified` = 1';
-		
-		try {
-			$preparedStatement = $this->db->prepare($query);
-		
-			$preparedStatement->execute( array(
-				':academic_email' => $academicEmail
-			));
-			
-			if ( $preparedStatement->rowCount() == 0 ) {
-				return false;
-			}
-			
-			return true;
-		}
-		catch ( PDOException $e ) {
-			// Log the error
-			//...
-		
-			throw new Exception('Database error, unable to check if verified email exists.');
-		}
-		
-	}
-	
-	public function verify ( $userId, $verifyEmailToken ) {
-		
-		$query = 'UPDATE `user` SET `verified` = 1, `token` = NULL 
-				  WHERE `user_id` = :user_id AND `token` = :token';
-		
-		try {	
-			$preparedStatement = $this->db->prepare($query);
-				
-			$preparedStatement->execute( array(
-				':token' => $verifyEmailToken,
-				':user_id' => $userId
-			));
-		}
-		catch ( PDOException $e ) {
-			// Log the error
-			//...
-		
-			throw new Exception('Database error, unable to verify email.');
-		}
 		
 	}
 	

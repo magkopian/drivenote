@@ -11,15 +11,21 @@ $token = trim($_GET['token']);
 
 try {
 	
-	// TODO: Check if email already verified by another user
+	$verifier = new Verifier($user, $db);
+	$academic_email = $verifier->getAcademicEmailByUserId($user_id);
 	
-	if ( $auth->isVerifyTokenExpired($user_id, $token) ) {
+	if ( $verifier->isEmailVerified($academic_email) ) {
+		Notifier::push('warning', 'Cannot verify account, the academic email is already in use.');
+		header('Location: /');
+		die();
+	} // Check if verification link has expired
+	else if ( $verifier->isTokenExpired($user_id, $token) ) {
 		Notifier::push('warning', 'The verification link has expired. Please send the verification email again.');
 		header('Location: /');
 		die();
-	}
+	} // If everything ok verify the account
 	else {
-		$auth->verify($user_id, $token);
+		$verifier->verify($user_id, $token);
 		Notifier::push('success', 'Your account has been verified!');
 		header('Location: /');
 		die();
@@ -27,7 +33,7 @@ try {
 	
 }
 catch ( Exception $e ) {
-	Notifier::push('Error', 'Your account could not be verified. Please contact the administrator.');
+	Notifier::push('error', 'Your account could not be verified. Please contact the administrator.');
 	header('Location: /');
 	die();
 }

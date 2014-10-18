@@ -15,11 +15,11 @@
 		</div>
 	<?php endif; ?>
 	
-	<?php if ( $auth->isSignedIn() === false ): ?>
+	<?php if ( $user->isSignedIn() === false ): ?>
 		<a href="<?php echo $auth->getAuthURL(); ?>" title="Click to Sign in">Sign in with Google</a>
 	<?php else: ?>
 		<a href="signout.php" title="Click to Sign out">Sign out</a>
-		<?php if ( $auth->isVerified() === false ): ?>
+		<?php if ( $user->isVerified() === false ): ?>
 			<form action="activate-account.php" method="post">
 				<label for="academic_emal">Academic Email:</label>
 				<input type="text" name="academic_email" id="academic_email">

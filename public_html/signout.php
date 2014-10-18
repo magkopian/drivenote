@@ -1,6 +1,6 @@
 <?php require_once '../src/init.php';
 
-if ( $auth->isSignedIn() === true ) {
+if ( $user->isSignedIn() === true ) {
 	$auth->signOut();
 }
 
