@@ -34,10 +34,7 @@ try {
 	} // If everything ok verify the account
 	else {
 		$verifier->verify($user_id, $token);
-		
-		$googleClientService = new Google_Client();
-		$googleClientService->setApplicationName(APP_NAME);
-		$drive = new GoogleDrive($googleClientService);
+
 		$drive->grantReadAccess($user->getGoogleEmail(), DIRECTORY_ID);
 		
 		Notifier::push('success', 'Your account has been verified!');

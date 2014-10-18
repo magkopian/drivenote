@@ -9,5 +9,8 @@ $user = new User($db);
 
 $googleClient = new Google_Client();
 $googleClient->setApplicationName(APP_NAME);
-
 $auth = new GoogleAuth($googleClient, $user, $db);
+
+$googleClientService = new Google_Client();
+$googleClientService->setApplicationName(APP_NAME);
+$drive = new GoogleDrive($googleClientService);

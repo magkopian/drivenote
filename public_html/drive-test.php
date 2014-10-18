@@ -1,7 +1,5 @@
 <?php require_once '../src/init.php';
 
-$drive = new GoogleDrive($googleClient);
-
 // Grant read access to root directory
 //$drive->grantReadAccess('<user_gmail_address>', DIRECTORY_ID);
 //$drive->redirect(DIRECTORY_ID);
