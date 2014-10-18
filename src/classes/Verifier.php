@@ -47,7 +47,7 @@ class Verifier {
 			// Log the error
 			//...
 	
-			throw new Exception('Database error, unable to verify email.');
+			throw new Exception('Database error, unable to check if verify token is expired.');
 		}
 	
 	}
@@ -112,8 +112,8 @@ class Verifier {
 			$preparedStatement = $this->db->prepare($query);
 	
 			$preparedStatement->execute( array(
-					':token' => $token,
-					':user_id' => $userId
+				':token' => $token,
+				':user_id' => $userId
 			));
 		}
 		catch ( PDOException $e ) {

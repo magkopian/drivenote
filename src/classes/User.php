@@ -21,7 +21,7 @@ class User {
 		
 	}
 	
-	// Should be called only by a GoolgeAuth instance
+	// Should get called only by an instance of GoolgeAuth class
 	public function instantiate ( $userId ) {
 		
 		$this->userId = $userId;
@@ -30,7 +30,7 @@ class User {
 		
 	}
 	
-	// Should be called only by a GoolgeAuth instance
+	// Should get called only by an instance of GoolgeAuth class
 	public function destroy () {
 		
 		$this->userId = null;
@@ -79,6 +79,7 @@ class User {
 		
 	}
 	
+	// Should only get called by an instance of Verify class
 	public function setVerifyToken ( $verifyToken ) {
 	
 		$this->verifyToken = $verifyToken ;
