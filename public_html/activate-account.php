@@ -36,10 +36,9 @@ try {
 	$verifyLink = $verifier->getVerifyURL();
 	$user->save();
 	
-	echo $message = 'Click to the link below to verify your account ' . $verifyLink;
-	die();
+	$message = 'Click to the link below to verify your account ' . $verifyLink;
 	
-	$mailer = new Mailer();
+	$mailer = Mailer::getInstance();
 	$mailer->send($academic_email, 'Drivenote | Account Verification', $message);
 	
 	Notifier::push('success', 'A verification email has been sent to your academic email. Please check your inbox.');

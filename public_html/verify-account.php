@@ -4,13 +4,13 @@ if ( $user->isVerified() ) {
 	header('Location: /');
 	die();
 }
-else if ( !$user->isSignedIn() ) {
-	Notifier::push('warning', 'You need to sign in before trying to verify your academic email.');
+else if ( !isset($_GET['uid']) || empty($_GET['uid']) || !isset($_GET['token']) || empty($_GET['token']) ) {
+	Notifier::push('warning', 'The verification link has expired. Please send the verification email again.');
 	header('Location: /');
 	die();
 }
-if ( !isset($_GET['uid']) || empty($_GET['uid']) || !isset($_GET['token']) || empty($_GET['token']) ) {
-	Notifier::push('warning', 'The verification link has expired. Please send the verification email again.');
+else if ( !$user->isSignedIn() || $user->getUserId() != (int) $_GET['uid'] ) {
+	Notifier::push('warning', 'You need to sign in before trying to verify your academic email.');
 	header('Location: /');
 	die();
 }

@@ -7,7 +7,6 @@ class Mailer {
 	protected $mail = null;
 
 	protected function __construct () {
-		$config = Config::getInstance();
 		
 		$this->mail = new PHPMailer();
 		$this->mail->CharSet = SMTP_CHARSET;
@@ -19,6 +18,7 @@ class Mailer {
 		$this->mail->Password = SMTP_PASSWD;
 		$this->mail->SMTPSecure = SMTP_ENCRYPTION;
 		$this->mail->XMailer = ' '; // Disable X-Mailer Header
+		
 	}
 
 	public static function getInstance () {
