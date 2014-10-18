@@ -25,6 +25,13 @@
 				<input type="text" name="academic_email" id="academic_email">
 				<input type="submit" value="Send Verification">
 			</form>
+		<?php else: ?>
+			<?php
+				$googleClientService = new Google_Client();
+				$googleClientService->setApplicationName(APP_NAME);
+				$drive = new GoogleDrive($googleClientService);
+			?>
+			<a href="<?php echo $drive->getFileURL(DIRECTORY_ID); ?>" title="Click to open google drive folder">Open Google Drive</a>
 		<?php endif; ?>
 	<?php endif; ?>
 </body>

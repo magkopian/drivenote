@@ -52,31 +52,6 @@ class Verifier {
 	
 	}
 	
-	public function getAcademicEmailByUserId ( $userId ) {
-		
-		$query = 'SELECT `academic_email` FROM `user` WHERE `user_id` = :user_id';
-			
-		try {
-			$preparedStatement = $this->db->prepare($query);
-				
-			$preparedStatement->execute( array(
-					':user_id' => $userId
-			));
-				
-			if ( $preparedStatement->rowCount() != 0 ) {
-				$res = $preparedStatement->fetch(PDO::FETCH_ASSOC);
-				return $res['academic_email'];
-			}
-		}
-		catch ( PDOException $e ) {
-			// Log the error
-			//...
-		
-			throw new Exception('Database error, unable to get email by user_id.');
-		}
-		
-	}
-	
 	public function isEmailVerified ( $academicEmail ) {
 	
 		$query = 'SELECT `user_id` FROM `user` WHERE `academic_email` = :academic_email AND `verified` = 1';

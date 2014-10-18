@@ -69,6 +69,16 @@ class GoogleDrive extends GoogleService {
 		
 	}
 	
+	public function getFileURL ( $fileId ) {
+		
+		$fileMetadata = $this->getFileMetadata($fileId);
+		if ( !isset($fileMetadata['driveLink']) || empty($fileMetadata['driveLink']) ) {
+			return false;
+		}
+		
+		return $fileMetadata['driveLink'];
+	}
+	
 	public function getFileMetadata ( $fileId ) {
 
 		$file = $this->service->files->get($fileId);

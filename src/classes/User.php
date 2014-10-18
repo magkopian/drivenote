@@ -67,6 +67,12 @@ class User {
 		
 	}
 	
+	public function getGoogleEmail () {
+	
+		return $this->googleEmail;
+	
+	}
+	
 	public function getAcademicEmail () {
 	
 		return $this->academicEmail;
