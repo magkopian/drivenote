@@ -14,6 +14,10 @@ class Verifier {
 	
 	public function getVerifyURL () {
 	
+		if ( $this->user->isSignedIn() === false ) {
+			throw new Exception('Cannot generate verify URL if user is not signed in.');
+		}
+		
 		$token = md5(uniqid(null, true));
 		$this->user->setVerifyToken($token);
 		

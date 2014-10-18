@@ -19,9 +19,17 @@ class GoogleAuth extends GoogleService {
 		if ( isset($_SESSION[$this->sessionName]) && !empty($_SESSION[$this->sessionName]) ) {
 			
 			// We set it
-			$this->client->setAccessToken($_SESSION[$this->sessionName]);
-			
-			// And we check if it's still valid
+			try {
+				$this->client->setAccessToken($_SESSION[$this->sessionName]);
+			}
+			catch ( Google_Auth_Exception $e ) {
+				// Log the error
+				//...
+					
+				throw  new Exception('Unable to set access token from session variable.');
+			}
+				
+			// And we check if it's still valid ( >= PHP 5.5: Should go inside finally block)
 			if ( $this->client->isAccessTokenExpired() ) {
 				unset($_SESSION[$this->sessionName]);
 				$this->user->destroy();
@@ -47,27 +55,36 @@ class GoogleAuth extends GoogleService {
 			return false;
 		}
 		
-		$this->client->authenticate($code);
+		try {
+			$this->client->authenticate($code);
+			
+			$this->accessToken = $this->client->getAccessToken();
+			$this->client->setAccessToken($this->accessToken);
+			
+			// If access token is expired
+			if ( $this->client->isAccessTokenExpired() ) {
+				$this->accessToken = null;
+				return false;
+			}
+			else {
+				// Store user data into database
+				$userId = $this->addUser();
 		
-		$this->accessToken = $this->client->getAccessToken();
-		$this->client->setAccessToken($this->accessToken);
-		
-		// If access token is expired
-		if ( $this->client->isAccessTokenExpired() ) {
-			$this->accessToken = null;
-			return false;
+				// Instantiate an authenticated user
+				$this->user->instantiate($userId);
+				
+				// Register the session
+				$_SESSION[$this->sessionName] = $this->accessToken;
+				
+				return true;
+			}
 		}
-		
-		// Store user data into database
-		$userId = $this->addUser();
-
-		// Register the session
-		$_SESSION[$this->sessionName] = $this->accessToken;
-		
-		// Instantiate an authenticated user
-		$this->user->instantiate($userId);
-		
-		return true;
+		catch ( Google_Auth_Exception $e ) {
+			// Log the error
+			//...
+			
+			throw  new Exception('Unable to exchange code for access token.');
+		}
 		
 	}
 	

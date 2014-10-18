@@ -1,5 +1,9 @@
 <?php require_once '../src/init.php';
 
+if ( $user->isVerified() ) {
+	header('Location: /');
+	die();
+}
 if ( !isset($_GET['uid']) || empty($_GET['uid']) || !isset($_GET['token']) || empty($_GET['token']) ) {
 	Notifier::push('warning', 'The verification link has expired. Please send the verification email again.');
 	header('Location: /');
