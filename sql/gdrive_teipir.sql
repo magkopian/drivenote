@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 17, 2014 at 02:47 AM
+-- Generation Time: Oct 19, 2014 at 12:19 AM
 -- Server version: 5.5.38
 -- PHP Version: 5.4.4-14+deb7u14
 
@@ -26,15 +26,17 @@ SET time_zone = "+00:00";
 -- Table structure for table `user`
 --
 
+DROP TABLE IF EXISTS `user`;
 CREATE TABLE IF NOT EXISTS `user` (
   `user_id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
   `google_id` decimal(21,0) NOT NULL,
   `google_email` varchar(255) NOT NULL,
   `academic_email` varchar(255) DEFAULT NULL,
   `verified` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `token` char(32) DEFAULT NULL,
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `google_id` (`google_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
