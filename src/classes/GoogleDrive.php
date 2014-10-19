@@ -11,16 +11,17 @@ class GoogleDrive extends GoogleService {
 		// If we have an access token, we can carry on. Otherwise, 
 		// we'll get one with the help of an assertion credential.
 		if ( isset($_SESSION[$this->sessionName]) && !empty($_SESSION[$this->sessionName]) ) {
-			
 			$this->client->setAccessToken($_SESSION[$this->sessionName]); // We set it
-			
 		}
 		
-		$key = file_get_contents(SERVICE_KEY_FILENAME);
+		if ( ($key = file_get_contents(SERVICE_KEY_FILENAME)) === false ) {
+			throw new Exception('Unable to open service private key file');
+		}
 		$credentials = new Google_Auth_AssertionCredentials(
 			SERVICE_ACCOUNT_NAME, 
 			array(SERVICE_API_SCOPE), 
-			$key
+			$key,
+			SERVICE_KEY_SECRET
 		);
 		$this->client->setAssertionCredentials($credentials);
 		
