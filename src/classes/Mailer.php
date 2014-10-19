@@ -1,12 +1,15 @@
 <?php
 
 class Mailer {
-	protected static $from = 'no-reply@drivenote-teipir.tk';
-	protected static $fromName = 'drivenote-teipir.tk';
+	protected static $from = '';
+	protected static $fromName = '';
 	protected static $instance = null;
 	protected $mail = null;
 
 	protected function __construct () {
+		
+		static::$from = 'no-reply@' . DOMAIN; 
+		static::$fromName = APP_NAME;
 		
 		$this->mail = new PHPMailer();
 		$this->mail->CharSet = SMTP_CHARSET;
