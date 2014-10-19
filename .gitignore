@@ -4,6 +4,7 @@
 .project
 src/config.php
 
+keys/*
+logs/*
 .settings/
-keys/
 vendor/

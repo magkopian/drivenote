@@ -99,4 +99,16 @@ class GoogleDrive extends GoogleService {
 	
 	}
 	
+	public function getQuota () {
+		
+		$about = $this->service->about->get();
+
+		return array (
+			'total' => (int) $about->getQuotaBytesTotal(),
+			'used' => (int) $about->getQuotaBytesUsed(),
+			'available' => (int) $about->getQuotaBytesTotal() - $about->getQuotaBytesUsed()
+		);
+		
+	}
+	
 }
