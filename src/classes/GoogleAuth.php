@@ -115,7 +115,7 @@ class GoogleAuth extends GoogleService {
 			$preparedStatement = $this->db->prepare($query);
 			
 			$preparedStatement->execute( array(
-				':google_id' => $userData['payload']['id'],
+				':google_id' => $userData['payload']['sub'],
 				':google_email' => $userData['payload']['email']
 			));
 			
