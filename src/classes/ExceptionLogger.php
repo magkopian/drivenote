@@ -1,4 +1,8 @@
 <?php
+/**********************************************\
+* Copyright (c) 2014 Manolis Agkopian          *
+* See the file LICENCE for copying permission. *
+\**********************************************/
 
 class ExceptionLogger extends Logger {
 	
@@ -32,7 +36,7 @@ class ExceptionLogger extends Logger {
 	
 	}
 	
-	protected function exceptionToString ( Exception $e ) {
+	private function exceptionToString ( Exception $e ) {
 		
 		$trace = $e->getTrace();
 		

@@ -1,4 +1,8 @@
 <?php
+/**********************************************\
+* Copyright (c) 2014 Manolis Agkopian          *
+* See the file LICENCE for copying permission. *
+\**********************************************/
 
 class Logger {
 	const CRITICAL 	= '0';

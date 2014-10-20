@@ -110,18 +110,31 @@ class GoogleAuth extends GoogleService {
 		try {
 			$userData = $this->client->verifyIdToken()->getAttributes();
 			
-			$query = 'INSERT INTO `user` (`google_id`, `google_email`)
-					  VALUES (:google_id, :google_email)
-					  ON DUPLICATE KEY UPDATE `user_id` = LAST_INSERT_ID(`user_id`)'; // On duplicate google_id do nothing
+			$query = 'SELECT `user_id` FROM `user` WHERE `google_id` = :google_id';
 			
 			$preparedStatement = $this->db->prepare($query);
-			
+				
 			$preparedStatement->execute( array(
-				':google_id' => $userData['payload']['sub'],
-				':google_email' => $userData['payload']['email']
+				':google_id' => $userData['payload']['sub']
 			));
 			
-			return $this->db->lastInsertId();
+			if ( $preparedStatement->rowCount() == 0 ) {
+				$query = 'INSERT INTO `user` (`google_id`, `google_email`)
+						  VALUES (:google_id, :google_email)';
+					
+				$preparedStatement = $this->db->prepare($query);
+					
+				$preparedStatement->execute( array(
+					':google_id' => $userData['payload']['sub'],
+					':google_email' => $userData['payload']['email']
+				));
+					
+				return $this->db->lastInsertId();
+			}
+
+			$res = $preparedStatement->fetch(PDO::FETCH_ASSOC);
+			return $res['user_id'];
+			
 		}
 		catch ( Google_AuthException $e ) {
 			$logger = new ExceptionLogger();
