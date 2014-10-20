@@ -4,6 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Drivenote | Teipir</title>
+	<link href='http://fonts.googleapis.com/css?family=Cantarell' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" type="text/css" href="/css/basestyle.css">
 </head>
 <body>
