@@ -12,14 +12,19 @@ if ( !isset($_GET['code']) || empty($_GET['code']) || $user->isSignedIn() ) {
 try {
 	if ( $auth->signIn($_GET['code']) === false ) {
 		Notifier::push('warning', 'The session has expired please sign in again.');
+		header('Location: /');
+		die();
 	}
 	else {
 		Notifier::push('success', 'You have successfully signed in!');
+		header('Location: /');
+		die();
 	}
 }
 catch ( Exception $e ) {
+	$logger = new ExceptionLogger();
+	$logger->error($e);
 	Notifier::push('error', 'Unable to sign in. Please contact the administrator.');
+	header('Location: /');
+	die();
 }
-
-header('Location: /');
-die();

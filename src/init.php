@@ -22,6 +22,8 @@ try {
 	$drive = new GoogleDrive($googleClientService);
 }
 catch ( Exception $e ) {
+	$logger = new ExceptionLogger();
+	$logger->error($e);
 	header('HTTP/1.1 503 Service Temporarily Unavailable');
 	header('Status: 503 Service Temporarily Unavailable');
 	header('Retry-After: 300');

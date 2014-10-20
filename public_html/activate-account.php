@@ -50,6 +50,8 @@ try {
 	
 }
 catch ( Exception $e ) {
+	$logger = new ExceptionLogger();
+	$logger->error($e);
 	Notifier::push('error', 'Couldn\'t send verification email. Please contact the administrator.' . $e->getMessage());
 	header('Location: /');
 	die();
