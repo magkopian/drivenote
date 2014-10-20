@@ -11,6 +11,8 @@
 	<title>Drivenote | <?php echo SCHOOL_NAME; ?></title>
 	<link href='http://fonts.googleapis.com/css?family=Cantarell' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" type="text/css" href="/css/basestyle.css">
+	<!--[if IE]><link rel="shortcut icon" href="favicon.ico"><![endif]-->
+	<link rel="icon" href="favicon.png">
 </head>
 <body>
 	<div id="wrapper">
