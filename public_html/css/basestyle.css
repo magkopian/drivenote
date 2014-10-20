@@ -32,7 +32,7 @@ header {
 
 #title {
 	padding: 5px 15px;
-	text-align: left;
+	text-align: center;
 	white-space: nowrap;
 }
 
@@ -53,6 +53,10 @@ header {
 	height: 50px; /* The height of the footer */
 }
 
+#midcol {
+	text-align: center;
+}
+
 /* Notifications */
 .notification {
 	-webkit-border-radius: 3px;
@@ -63,6 +67,9 @@ header {
 	box-shadow: 4px 4px #DFE1D8;
 	margin-bottom: 10px;
 	padding: 10px;
+	margin-left: auto;
+	margin-right: auto;
+	width: 90%;
 }
 
 .notification h4 {
@@ -148,14 +155,18 @@ header {
 	border-radius: 3px;
 	box-shadow: none;
 	outline: none;
-	padding: 5px;
-	margin: 5px 5px 5px 0;
-	font-size: 1.3em;
+	padding: 8px;
+	margin: 8px 8px 8px 0;
+	font-size: 1.5em;
 	text-decoration: none;
 	text-align: center;
 	color: #FFF;
 	display: inline-block;
 	cursor: pointer;
+}
+
+.button:last-child {
+	margin-right: 0;
 }
 
 .button span {
@@ -194,17 +205,19 @@ header {
 /* Forms */
 input[type="text"] {
 	border-radius: 3px;
-	font-size: 1.3em;
-	padding: 5px;
+	font-size: 1.5em;
+	padding: 8px;
 	border: #CCC 1px solid;
 }
 
 #academic_email {
 	min-width: 260px;
+	margin-right: 8px;
 }
 
 label {
-	font-size: 1.3em;
+	font-size: 1.5em;
+	margin-right: 8px;
 }
 
 /* Footer */

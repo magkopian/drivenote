@@ -29,20 +29,22 @@
 				</div>
 			<?php endif; ?>	
 		
-			<?php if ( $user->isSignedIn() === false ): ?>
-				<a class="button" href="<?php echo $auth->getAuthURL(); ?>" title="Click to Sign in"><span>Sign in with Google</span></a>
-			<?php else: ?>
-				<?php if ( $user->isVerified() === false ): ?>
-					<form action="activate-account.php" method="post">
-						<label for="academic_emal">Academic Email:</label>
-						<input type="text" name="academic_email" id="academic_email" placeholder="e.g. <?php echo ACADEMIC_EMAIL_EXAMPLE; ?>">
-						<input class="button" type="submit" value="Send Verification">
-					</form>
+			<div id="midcol">
+				<?php if ( $user->isSignedIn() === false ): ?>
+					<a class="button" href="<?php echo $auth->getAuthURL(); ?>" title="Click to Sign in"><span>Sign in with Google</span></a>
 				<?php else: ?>
-					<a class="button" href="<?php echo $drive->getFileURL(DIRECTORY_ID); ?>" title="Click to open google drive folder"><span>Open Google Drive</span></a>
+					<?php if ( $user->isVerified() === false ): ?>
+						<form action="activate-account.php" method="post">
+							<label for="academic_emal">Academic Email:</label>
+							<input type="text" name="academic_email" id="academic_email" placeholder="e.g. <?php echo ACADEMIC_EMAIL_EXAMPLE; ?>">
+							<input class="button" type="submit" value="Send Verification">
+						</form>
+					<?php else: ?>
+						<a class="button" href="<?php echo $drive->getFileURL(DIRECTORY_ID); ?>" title="Click to open google drive folder"><span>Open Google Drive</span></a>
+					<?php endif; ?>
+					<a class="button" href="signout.php" title="Click to Sign out"><span>Sign out</span></a>
 				<?php endif; ?>
-				<a class="button" href="signout.php" title="Click to Sign out"><span>Sign out</span></a>
-			<?php endif; ?>
+			</div>
 		</div>
 		<footer>
 		
