@@ -1,4 +1,9 @@
 <?php
+/**********************************************\
+* Copyright (c) 2014 Manolis Agkopian          *
+* See the file LICENCE for copying permission. *
+\**********************************************/
+
 require_once '../vendor/autoload.php';
 require_once '../src/config.php';
 

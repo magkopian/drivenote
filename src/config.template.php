@@ -1,4 +1,9 @@
 <?php
+/**********************************************\
+* Copyright (c) 2014 Manolis Agkopian          *
+* See the file LICENCE for copying permission. *
+\**********************************************/
+
 // Application Credentials
 define('SCHOOL_NAME', 'Scholl'); // Appears on the title and h1 tags of the main page
 define('APP_NAME', 'Drivenote'); // The application name

@@ -1,4 +1,8 @@
 <?php
+/**********************************************\
+* Copyright (c) 2014 Manolis Agkopian          *
+* See the file LICENCE for copying permission. *
+\**********************************************/
 
 class GoogleAuth extends GoogleService {
 	protected $sessionName = 'WEBAPP_ACCESS_TOKEN';
