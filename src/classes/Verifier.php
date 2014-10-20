@@ -48,9 +48,8 @@ class Verifier {
 			return false;
 		}
 		catch ( PDOException $e ) {
-			// Log the error
-			//...
-	
+			$logger = new ExceptionLogger();
+			$logger->error($e);
 			throw new Exception('Database error, unable to check if verify token is expired.');
 		}
 	
@@ -74,9 +73,8 @@ class Verifier {
 			return true;
 		}
 		catch ( PDOException $e ) {
-			// Log the error
-			//...
-	
+			$logger = new ExceptionLogger();
+			$logger->error($e);
 			throw new Exception('Database error, unable to check if verified email exists.');
 		}
 	
@@ -96,9 +94,8 @@ class Verifier {
 			));
 		}
 		catch ( PDOException $e ) {
-			// Log the error
-			//...
-	
+			$logger = new ExceptionLogger();
+			$logger->error($e);
 			throw new Exception('Database error, unable to verify email.');
 		}
 	

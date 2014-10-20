@@ -27,9 +27,8 @@ class GoogleAuth extends GoogleService {
 				$this->client->setAccessToken($_SESSION[$this->sessionName]);
 			}
 			catch ( Google_Auth_Exception $e ) {
-				// Log the error
-				//...
-					
+				$logger = new ExceptionLogger();
+				$logger->error($e);
 				throw  new Exception('Unable to set access token from session variable.');
 			}
 				
@@ -84,9 +83,8 @@ class GoogleAuth extends GoogleService {
 			}
 		}
 		catch ( Google_Auth_Exception $e ) {
-			// Log the error
-			//...
-			
+			$logger = new ExceptionLogger();
+			$logger->error($e);
 			throw  new Exception('Unable to exchange code for access token.');
 		}
 		
@@ -126,15 +124,13 @@ class GoogleAuth extends GoogleService {
 			return $this->db->lastInsertId();
 		}
 		catch ( Google_AuthException $e ) {
-			// Log the error
-			//...
-			
+			$logger = new ExceptionLogger();
+			$logger->error($e);
 			throw new Exception('Auth error, unable to verify id_token.');
 		}
 		catch ( PDOException $e ) {
-			// Log the error
-			//...
-
+			$logger = new ExceptionLogger();
+			$logger->error($e);
 			throw new Exception('Database error, unable to insert user.');
 		}
 		

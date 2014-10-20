@@ -9,13 +9,21 @@ require_once '../src/config.php';
 
 session_start();
 
-$db = Database::getInstance();
-$user = new User($db);
-
-$googleClient = new Google_Client();
-$googleClient->setApplicationName(APP_NAME);
-$auth = new GoogleAuth($googleClient, $user, $db);
-
-$googleClientService = new Google_Client();
-$googleClientService->setApplicationName(APP_NAME);
-$drive = new GoogleDrive($googleClientService);
+try {
+	$db = Database::getInstance();
+	$user = new User($db);
+	
+	$googleClient = new Google_Client();
+	$googleClient->setApplicationName(APP_NAME);
+	$auth = new GoogleAuth($googleClient, $user, $db);
+	
+	$googleClientService = new Google_Client();
+	$googleClientService->setApplicationName(APP_NAME);
+	$drive = new GoogleDrive($googleClientService);
+}
+catch ( Exception $e ) {
+	header('HTTP/1.1 503 Service Temporarily Unavailable');
+	header('Status: 503 Service Temporarily Unavailable');
+	header('Retry-After: 300');
+	die('503 Service Unavailable');
+}

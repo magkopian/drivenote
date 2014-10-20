@@ -119,9 +119,8 @@ class User {
 			));
 		}
 		catch ( PDOException $e ) {
-			// Log the error
-			//...
-		
+			$logger = new ExceptionLogger();
+			$logger->error($e);
 			throw new Exception('Database error, unable to update user.');
 		}
 		
@@ -152,9 +151,8 @@ class User {
 			}
 		}
 		catch ( PDOException $e ) {
-			// Log the error
-			//...
-		
+			$logger = new ExceptionLogger();
+			$logger->error($e);
 			throw new Exception('Database error, unable fetch user.');
 		}
 		

@@ -21,8 +21,8 @@ class Database {
 			$this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		}
 		catch ( PDOException $e ) {
-			$error_logger = new ErrorLogger($e);
-			$error_logger->logError();
+			$logger = new ExceptionLogger();
+			$logger->error($e);
 			throw new DatabaseException('Unable to connect to database');
 		}
 	
