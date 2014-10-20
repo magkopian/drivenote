@@ -31,6 +31,7 @@ header {
 }
 
 #title {
+	font-size: 2em;
 	padding: 5px 15px;
 	text-align: center;
 	white-space: nowrap;
@@ -224,4 +225,36 @@ label {
 footer {
 	min-height: 50px;
 	background-color: #EFEFEF;
+}
+
+/* Mobile Devices */
+@-ms-viewport{
+  width: device-width;
+}
+
+@media (max-width: 600px) {
+	#title {
+		font-size: 1.9em;
+		padding: 3px 10px;
+	}
+
+	.button {
+		margin: 5px 5px 5px 0;
+		font-size: 1.3em;
+	}
+	
+	input[type="text"] {
+		font-size: 1.3em;
+		padding: 5px;
+	}
+	
+	#academic_email {
+		min-width: 260px;
+		margin-right: 5px;
+	}
+	
+	label {
+		font-size: 1.3em;
+		margin-right: 5px;
+	}
 }
