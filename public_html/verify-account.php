@@ -50,7 +50,7 @@ try {
 catch ( Exception $e ) {
 	$logger = new ExceptionLogger();
 	$logger->error($e);
-	Notifier::push('error', 'Your account could not be verified. Please contact the administrator.' . $e->getMessage());
+	Notifier::push('error', 'Your account could not be verified. Please contact the administrator.');
 	header('Location: /');
 	die();
 }
