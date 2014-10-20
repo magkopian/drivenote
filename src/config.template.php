@@ -1,7 +1,12 @@
 <?php
+// Application Credentials
+define('SCHOOL_NAME', 'Scholl'); // Appears on the title and h1 tags of the main page
 define('APP_NAME', 'Drivenote'); // The application name
-define('DOMAIN', '');
+define('DOMAIN', 'scholl.edu');
+define('ACADEMIC_EMAIL_FORMAT', '/^student[0-9]{5,7}@scholl\.edu$/'); // Regex that describes an academic email address, it's used for validation
+define('ACADEMIC_EMAIL_EXAMPLE', 'student@scholl.edu'); // It is used as a placeholder for the academic_email textbox
 
+// Google Service Account Credentials
 define('SERVICE_CLIENT_ID', ''); // Client ID of service account
 define('SERVICE_ACCOUNT_NAME', ''); // Email Address of service account
 define('SERVICE_KEY_FILENAME', '../keys/key.p12'); // Path to service account key file
@@ -9,12 +14,14 @@ define('SERVICE_KEY_SECRET', 'notasecret'); // notasecret is the default passphr
 define('SERVICE_API_SCOPE', 'https://www.googleapis.com/auth/drive'); // We want to access the google drive api
 define('DIRECTORY_ID', ''); // ID of the directory to get shared
 
+// Google Web Application Credentials
 define('WEBAPP_CLIENT_ID', ''); // Client ID of web application
 define('WEBAPP_ACCOUNT_NAME', ''); // Email Address of web application
 define('WEBAPP_SECRET', ''); // Secret of web application
 define('WEBAPP_REDIRECT_URI', 'http://<domain>/oauth2callback.php'); // Callback URL of web application
 define('WEBAPP_API_SCOPE', 'email'); // We just want the user's email
 
+// Database Credentials
 define('DB_DRIVER', 'mysql');
 define('DB_CHARSET', 'utf8');
 define('DB_HOST', '');
@@ -22,6 +29,7 @@ define('DB_NAME', '');
 define('DB_USER', '');
 define('DB_PASSWD', '');
 
+// SMTP Server Credentials
 define('SMTP_USER', '');
 define('SMTP_PASSWD', '');
 define('SMTP_HOST', '');

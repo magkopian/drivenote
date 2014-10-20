@@ -3,14 +3,14 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Drivenote | Teipir</title>
+	<title>Drivenote | <?php echo SCHOOL_NAME; ?></title>
 	<link href='http://fonts.googleapis.com/css?family=Cantarell' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" type="text/css" href="/css/basestyle.css">
 </head>
 <body>
 	<div id="wrapper">
 		<header>
-			<h1 id="title">Drivenote | Teipir</h1>
+			<h1 id="title">Drivenote | <?php echo SCHOOL_NAME; ?></h1>
 		</header>
 		<div id="content">
 			<?php $notification = Notifier::pop(); ?>
@@ -28,7 +28,7 @@
 				<?php if ( $user->isVerified() === false ): ?>
 					<form action="activate-account.php" method="post">
 						<label for="academic_emal">Academic Email:</label>
-						<input type="text" name="academic_email" id="academic_email" placeholder="e.g. cse12345@stef.teipir.gr">
+						<input type="text" name="academic_email" id="academic_email" placeholder="e.g. <?php echo ACADEMIC_EMAIL_EXAMPLE; ?>">
 						<input class="button" type="submit" value="Send Verification">
 					</form>
 				<?php else: ?>

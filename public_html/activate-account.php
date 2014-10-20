@@ -11,10 +11,9 @@ else if ( !isset($_POST['academic_email']) || empty($_POST['academic_email']) ) 
 }
 else {
 	$academic_email = mb_strtolower(trim($_POST['academic_email']), 'UTF-8');
-	$regex = '/^cse[0-9]{5}@stef\.teipir\.gr$/';
 	
 	// Check if the Academic Email is valid
-	if ( !preg_match($regex, $academic_email) ) {
+	if ( !preg_match(ACADEMIC_EMAIL_FORMAT, $academic_email) ) {
 		Notifier::push('error', 'Please give a valid academic email address.');
 		header('Location: /');
 		die();
