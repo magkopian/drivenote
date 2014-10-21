@@ -32,7 +32,7 @@
 		
 			<div id="midcol">
 				<?php if ( $user->isSignedIn() === false ): ?>
-					<a class="button" href="<?php echo $auth->getAuthURL(); ?>" title="Click to Sign in"><span>Sign in with Google</span></a>
+					<a class="button" href="<?php echo $auth->getAuthURL(); ?>" rel="nofollow" title="Click to Sign in"><span>Sign in with Google</span></a>
 				<?php else: ?>
 					<?php if ( $user->isVerified() === false ): ?>
 						<form action="activate-account.php" method="post">
@@ -48,7 +48,11 @@
 			</div>
 		</div>
 		<footer>
-		
+			<p id="copyright">
+				Designed by
+				<a href="https://twitter.com/magkopian" title="@magkopian" target="_blank">Manolis Agkopian</a>
+				&copy; 2012 - <?php echo date('Y'); ?>
+			</p>
 		</footer>
 	</div>
 </body>

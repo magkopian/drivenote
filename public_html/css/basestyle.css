@@ -227,6 +227,21 @@ footer {
 	background-color: #EFEFEF;
 }
 
+footer p {
+	text-align: center;
+	padding-top: 10px;
+}
+
+footer a {
+	text-decoration: none;
+	color: #555;
+}
+
+footer a:hover {
+	text-decoration: underline;
+	color: #999;
+}
+
 /* Mobile Devices */
 @-ms-viewport{
   width: device-width;
