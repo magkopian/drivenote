@@ -10,6 +10,7 @@ define('APP_NAME', 'Drivenote'); // The application name
 define('DOMAIN', 'scholl.edu');
 define('ACADEMIC_EMAIL_FORMAT', '/^student[0-9]{5,7}@scholl\.edu$/'); // Regex that describes an academic email address, it's used for validation
 define('ACADEMIC_EMAIL_EXAMPLE', 'student@scholl.edu'); // It is used as a placeholder for the academic_email textbox
+define('GOOGLE_ANALYTICS_ID', false); // The Google Analytics ID e.g. 'UA-98765432-1'. If it is false Google Analytics is disabled.
 
 // Google Service Account Credentials
 define('SERVICE_CLIENT_ID', ''); // Client ID of service account
