@@ -1,2 +1,5 @@
-User-agent: *
+User-Agent: *
 Disallow:
+Disallow: /oauth2callback.php
+Disallow: /activate-account.php
+Disallow: /verify-account.php
