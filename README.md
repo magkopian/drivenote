@@ -54,7 +54,7 @@ uses a regular expression to validate the users academic email address. You need
 provide a regular expression that matches the academic email address format you want.
 
 You also need to provide an academic email address example to indicate to your users
-which type of email address are accepted as valid.
+which type of email addresses are accepted as valid.
 
 ## Requirements:
 PHP 5.3  
