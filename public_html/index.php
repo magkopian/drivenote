@@ -51,7 +51,7 @@
 					<?php if ( $user->isVerified() === false ): ?>
 						<form action="activate-account.php" method="post">
 							<label for="academic_emal">Academic Email:</label>
-							<input type="text" name="academic_email" id="academic_email" placeholder="e.g. <?php echo ACADEMIC_EMAIL_EXAMPLE; ?>">
+							<input type="email" name="academic_email" id="academic_email" placeholder="e.g. <?php echo ACADEMIC_EMAIL_EXAMPLE; ?>">
 							<input class="button" type="submit" value="Send Verification">
 						</form>
 					<?php else: ?>

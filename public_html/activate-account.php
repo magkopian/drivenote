@@ -18,7 +18,7 @@ else {
 	
 	// Check if the Academic Email is valid
 	if ( !preg_match(ACADEMIC_EMAIL_FORMAT, $academic_email) ) {
-		Notifier::push('error', 'Please give a valid academic email address.');
+		Notifier::push('error', 'Please give a valid academic email address e.g. ' . ACADEMIC_EMAIL_EXAMPLE);
 		header('Location: /');
 		die();
 	}

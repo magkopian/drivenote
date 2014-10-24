@@ -204,7 +204,7 @@ header {
 }
 
 /* Forms */
-input[type="text"] {
+input[type="text"], input[type="email"] {
 	border-radius: 3px;
 	font-size: 1.5em;
 	padding: 8px;
@@ -258,7 +258,7 @@ footer a:hover {
 		font-size: 1.3em;
 	}
 	
-	input[type="text"] {
+	input[type="text"], input[type="email"] {
 		font-size: 1.3em;
 		padding: 5px;
 	}
