@@ -21,11 +21,11 @@ edit it in order to reflect the setup of your own application, by filling your G
 and Web Service account credentials, the credentials of your database, the format and the example of 
 the academic email etc.
 
-## Setup:
+## Configuration:
 After installing the application you need to configure it by renaming the file
 `src/config.template.php` to `src/config.php` and editing it.
 
-### Google API
+### Google API Setup
 First go to the [Google Developers Console](https://console.developers.google.com) and set up a new project. 
 
 After that, you need to enable the `Drive API` for the
@@ -36,19 +36,44 @@ one `Service Account` type and one `Client ID for web application` type.
 Fill the `src/config.php` file with the credentials you just generated and download
 the key file of the service account and place it inside the `keys/` directory.
 
-### Database
+### Adding the files
+After generating the credentials for the Google API you will have to give the application access to the files
+you want to manage their permissions.
+
+At first, you will have to make sure that all the files you want the application to manage are inside a 
+specific folder in your Google Drive, the structure inside the folder doesn't matter. You will have to share 
+this folder with the application with write access, but you doesn't need to make the application owner of it. 
+
+The email of the application that you have to share the folder with, is the same email that was generated
+when you created the `Google Service Account` on the previous step.
+
+After you give the application write access to the folder, you will have to find its ID and fill the
+appropriate field inside your `config.php` file. For this purpose create a PHP file with the following code 
+and put it inside the `public_html` directory:
+
+```PHP
+<?php require_once '../src/init.php';
+$drive->listFiles();
+```
+
+When you run the script from your browser, it will list all the files and folders that the application manages.
+Now you just have to find the folder that you shared with the application in this list so you can find its ID. 
+The record of the folder will be most likely near the top of the list. When you are done, delete the php file 
+you created to find the ID of the folder.
+
+### Database Setup
 The application needs a simple MySQL database in order to work. You can create an
 empty database and import the `sql/drivenote.sql` file in order to generate the right database schema. 
 Also, create a user with access to the same database.
 
 Fill the `src/config.php` file with the credentials of the database you just created.
 
-### SMTP Server
+### SMTP Configuration
 The application needs access to an SMTP server in order to be able to send account
 activation emails. Fill the `src/config.php` file with the credentials of your SMTP 
 server. If don't have an SMTP server installed you can use a relay server like [Mandrill](https://mandrill.com/).
 
-### Academic Email
+### Academic Email Verification
 In order to been able to accept students only from a specific school the application
 uses a regular expression to validate the users academic email address. You need to
 provide a regular expression that matches the academic email address format you want.
