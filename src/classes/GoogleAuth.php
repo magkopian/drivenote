@@ -136,7 +136,7 @@ class GoogleAuth extends GoogleService {
 			return $res['user_id'];
 			
 		}
-		catch ( Google_AuthException $e ) {
+		catch ( Google_Auth_Exception $e ) {
 			$logger = new ExceptionLogger();
 			$logger->error($e);
 			throw new Exception('Auth error, unable to verify id_token.');
