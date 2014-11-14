@@ -9,6 +9,8 @@ class User {
 	private $googleId = null;
 	private $googleEmail = null;
 	private $academicEmail = null;
+	private $admin = false;
+	private $adminAccessLevel = null;
 	private $verified = false;
 	private $verifyToken = null;
 	private $sessionName = 'USER_ID';
@@ -44,6 +46,8 @@ class User {
 		$this->googleId = 0;
 		$this->googleEmail = null;
 		$this->academicEmail = null;
+		$this->admin = false;
+		$this->adminAccessLevel = null;
 		$this->verified = 0;
 		$this->verifyToken = null;
 		
@@ -57,6 +61,12 @@ class User {
 		
 		return false;
 		
+	}
+	
+	public function isAdmin () {
+	
+		return $this->admin;
+	
 	}
 	
 	public function isVerified () {
@@ -128,8 +138,15 @@ class User {
 	
 	private function fetch () {
 		
-		$query = 'SELECT `user_id`, `google_id`, `google_email`, `academic_email`, `verified`, `token` 
-				  FROM `user` WHERE `user_id` = :user_id';
+		$query = 'SELECT `user`.`user_id`, `google_id`, `google_email`, `academic_email`, `verified`, `token`,
+				  CASE WHEN `admin`.`user_id` IS NOT NULL 
+					   THEN 1
+					   ELSE 0
+				  END AS `is_admin`, `access_level`
+				  FROM `user` 
+				  LEFT OUTER JOIN `admin`
+				  ON `user`.`user_id` = `admin`.`user_id`
+				  WHERE `user`.`user_id` = :user_id';
 		
 		try {
 			$preparedStatement = $this->db->prepare($query);
@@ -145,8 +162,13 @@ class User {
 				$this->googleId = $res['google_id'];
 				$this->googleEmail = $res['google_email'];
 				$this->academicEmail = $res['academic_email'];
+				$this->admin = (bool) $res['is_admin'];
 				$this->verified = (bool) $res['verified'];
 				$this->verifyToken = $res['token'];
+				
+				if ( $this->admin === true ) {
+					$this->adminAccessLevel = (int) $res['access_level'];
+				}
 				
 			}
 		}
