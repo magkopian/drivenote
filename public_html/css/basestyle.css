@@ -37,6 +37,18 @@ header {
 	white-space: nowrap;
 }
 
+#title a {
+	text-decoration: none;
+	color: #000;
+	  display: inline-block;
+  position: relative;
+
+}
+
+#title:hover a {
+	color: #555;
+}
+
 /* Content */
 #content {
 	margin-bottom: -50px; /* The height of the footer */
@@ -221,6 +233,39 @@ label {
 	margin-right: 8px;
 }
 
+/* Tables */
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+	border: 1px solid #CBCBCB;
+	empty-cells: show;
+	margin: 0 auto;
+}
+
+table thead {
+	background: none repeat scroll 0 0 #E0E0E0;
+	color: #000;
+	text-align: left;
+	vertical-align: bottom;
+}
+
+table td:first-child, table th:first-child {
+	border-left-width: 0;
+}
+
+table th, table td {
+	border-left: 1px solid #CBCBCB;
+	border-width: 0 0 0 1px;
+	font-size: 1em;
+	margin: 0;
+	overflow: visible;
+	padding: 0.5em 1em;
+}
+
+tr.odd td {
+    background-color: #F2F2F2;
+}
+
 /* Footer */
 footer {
 	min-height: 50px;
@@ -245,6 +290,20 @@ footer a:hover {
 /* Mobile Devices */
 @-ms-viewport{
   width: device-width;
+}
+
+@media (max-width: 750px) {
+	table th, table td {
+		padding: 0.4em 0.8em;
+	}
+}
+
+
+@media (max-width: 680px) {
+	table th, table td {
+		font-size: 0.9em;
+		padding: 0.3em 0.6em;
+	}	
 }
 
 @media (max-width: 600px) {
