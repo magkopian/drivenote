@@ -1,3 +1,9 @@
+<?php 
+/**********************************************\
+* Copyright (c) 2014 Manolis Agkopian          *
+* See the file LICENCE for copying permission. *
+\**********************************************/
+?>
 <head>
 	<meta charset="UTF-8">
 	<title>Drivenote | <?php echo SCHOOL_NAME; ?></title>

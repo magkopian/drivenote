@@ -1,3 +1,9 @@
+<?php 
+/**********************************************\
+* Copyright (c) 2014 Manolis Agkopian          *
+* See the file LICENCE for copying permission. *
+\**********************************************/
+?>
 <!DOCTYPE html>
 <html lang="en">
 <?php include '../src/views/template/head.php'; ?>

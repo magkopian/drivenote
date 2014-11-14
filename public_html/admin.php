@@ -9,6 +9,9 @@ if ( !$user->isSignedIn() || !$user->isAdmin() ) {
 	header('Location: /');
 	die();
 }
+
+// TODO: PAGINATION
+
 $users = $user->search(null, 0, 9999);
 
 require '../src/views/pages/admin.php';

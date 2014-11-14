@@ -107,6 +107,8 @@ class User {
 				  LEFT OUTER JOIN `admin`
 				  ON `user`.`user_id` = `admin`.`user_id` ' . $whereClause . ' ' . $havingClause;
 		
+				// TODO: LIMIT, OFFSET, ORDER
+				
 		try {
 			$preparedStatement = $this->db->prepare($query);
 		
