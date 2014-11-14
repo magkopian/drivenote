@@ -38,15 +38,17 @@ class ExceptionLogger extends Logger {
 	
 	private function exceptionToString ( Exception $e ) {
 		
-		$trace = $e->getTrace();
-		
 		$errorLog = $e->getMessage();
 		$errorLog = preg_replace('!\s+!', ' ', $errorLog);
-		$errorLog .= isset($trace[0]['file']) ? ' in ' . $trace[0]['file'] : '';
-		$errorLog .= ' at call of ';
-		$errorLog .= isset($trace[0]['class']) ? $trace[0]['class'] . '::' . $trace[0]['function'] . '()' : $trace[0]['function'] . '();';
-		$errorLog .= isset($trace[0]['line']) ? ' on line ' . $trace[0]['line'] : '';
-
+		
+		$trace = $e->getTrace();
+		if ( isset($trace[0]) ) {
+			$errorLog .= isset($trace[0]['file']) ? ' in ' . $trace[0]['file'] : '';
+			$errorLog .= ' at call of ';
+			$errorLog .= isset($trace[0]['class']) ? $trace[0]['class'] . '::' . $trace[0]['function'] . '()' : $trace[0]['function'] . '();';
+			$errorLog .= isset($trace[0]['line']) ? ' on line ' . $trace[0]['line'] : '';
+		}
+		
 		return $errorLog;
 		
 	}

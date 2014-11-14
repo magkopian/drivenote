@@ -3,6 +3,21 @@
 * Copyright (c) 2014 Manolis Agkopian          *
 * See the file LICENCE for copying permission. *
 \**********************************************/
+
+if ( $user->isSignedIn() === true && $user->isVerified() === true ) {
+	
+	try {
+		$directoryURL = $drive->getFileURL(DIRECTORY_ID);
+	}
+	catch ( Google_Service_Exception $e ) {
+		$directoryURL = '#';
+		$logger = new ExceptionLogger();
+		$logger->error($e);
+		Notifier::push('error', 'Unable to establish connection with Google Service, please try again later. If the error persists contact the administrator.');
+	}
+	
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -56,7 +71,7 @@
 							<input class="button" type="submit" value="Send Verification">
 						</form>
 					<?php else: ?>
-						<a class="button" href="<?php echo $drive->getFileURL(DIRECTORY_ID); ?>" title="Click to open google drive folder"><span>Open Google Drive</span></a>
+						<a class="button" href="<?php echo $directoryURL; ?>" title="Click to open google drive folder"><span>Open Google Drive</span></a>
 					<?php endif; ?>
 					<a class="button" href="signout.php" title="Click to Sign out"><span>Sign out</span></a>
 				<?php endif; ?>

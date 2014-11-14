@@ -58,7 +58,7 @@ $drive->listFiles();
 
 When you run the script from your browser, it will list all the files and folders that the application manages.
 Now you just have to find the folder that you shared with the application in this list so you can find its ID. 
-The record of the folder will be most likely near the top of the list. When you are done, delete the php file 
+The record of the folder will be most likely near the top of the list. When you are done, delete the PHP file 
 you created to find the ID of the folder.
 
 ### Database Setup

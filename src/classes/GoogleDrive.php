@@ -42,7 +42,7 @@ class GoogleDrive extends GoogleService {
 	}
 	
 	public function grantReadAccess ( $googleEmail, $fileId ) {
-	
+		
 		// Create a new permition object to give read access to a user
 		$permition = new Google_Service_Drive_Permission();
 		$permition->setRole('reader');

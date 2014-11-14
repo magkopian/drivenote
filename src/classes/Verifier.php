@@ -86,6 +86,8 @@ class Verifier {
 				  WHERE `user_id` = :user_id AND `token` = :token';
 	
 		try {
+			$this->db->beginTransaction();
+			
 			$preparedStatement = $this->db->prepare($query);
 	
 			$preparedStatement->execute( array(
@@ -94,11 +96,28 @@ class Verifier {
 			));
 		}
 		catch ( PDOException $e ) {
+			$this->db->rollBack();
 			$logger = new ExceptionLogger();
 			$logger->error($e);
 			throw new Exception('Database error, unable to verify email.');
 		}
 	
+	}
+	
+	public function commitVerify () {
+		
+		if ( $this->db->commit() === false ) {
+			throw new Exception('Database error, unable to commit verify.');
+		}
+		
+	}
+	
+	public function rollBackVerify () {
+		
+		if ( $this->db->rollBack() === false ) {
+			throw new Exception('Database error, unable to rollBack verify.');
+		}
+		
 	}
 	
 }

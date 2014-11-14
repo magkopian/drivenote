@@ -41,6 +41,8 @@ try {
 
 		$drive->grantReadAccess($user->getGoogleEmail(), DIRECTORY_ID);
 		
+		$verifier->commitVerify();
+		
 		Notifier::push('success', 'Your account has been verified!');
 		header('Location: /');
 		die();
@@ -48,9 +50,10 @@ try {
 	
 }
 catch ( Exception $e ) {
+	$verifier->rollBackVerify();
 	$logger = new ExceptionLogger();
 	$logger->error($e);
-	Notifier::push('error', 'Your account could not be verified. Please contact the administrator.');
+	Notifier::push('error', 'Your account could not be verified, please try again later. If the error persists contact the administrator.');
 	header('Location: /');
 	die();
 }
