@@ -44,4 +44,15 @@ if ( empty($users['records']) && $users['total_users'] > 0 ) {
 	die();
 }
 
+$drivePermissions = $drive->getFilePermissions(DIRECTORY_ID);
+
+$userPermissions = array();
+foreach ( $drivePermissions as $drivePermission ) {
+	$userPermissions[$drivePermission->getEmailAddress()] = array (
+		'name' => $drivePermission->getName(),
+		'email' => $drivePermission->getEmailAddress(),
+		'role' => $drivePermission->getRole()
+	);
+}
+
 require '../src/views/pages/users.php';

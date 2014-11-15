@@ -331,16 +331,29 @@ footer a:hover {
   width: device-width;
 }
 
-@media (max-width: 750px) {
+@media (max-width: 900px) {
 	table th, table td {
 		padding: 0.4em 0.8em;
 	}
 }
 
 
-@media (max-width: 680px) {
+@media (max-width: 840px) {
+	table th, table td {
+		padding: 0.3em 0.6em;
+	}	
+}
+
+@media (max-width: 800px) {
 	table th, table td {
 		font-size: 0.9em;
+		padding: 0.3em 0.6em;
+	}	
+}
+
+@media (max-width: 740px) {
+	table th, table td {
+		font-size: 0.8em;
 		padding: 0.3em 0.6em;
 	}	
 }

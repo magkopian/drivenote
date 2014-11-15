@@ -23,6 +23,7 @@
 								<th>Google Email</th>
 								<th>Academic Email</th>
 								<th>Status</th>
+								<th>Role</th>
 								<th>Extra</th>
 							</tr>
 						</thead>
@@ -33,6 +34,7 @@
 								<td><?php echo $user_data['google_email']; ?></td>
 								<td><?php echo $user_data['academic_email']; ?></td>
 								<td><?php echo $user_data['verified'] ? 'Verified' : 'Not Verified'; ?></td>
+								<td><?php echo isset($userPermissions[$user_data['google_email']]) ? ucfirst($userPermissions[$user_data['google_email']]['role']) : ''; ?></td>
 								<td><?php echo $user_data['is_admin'] ? $user_data['access_level'] > 0 ? 'Moderator' : 'Administrator' : ''; ?></td>
 							<tr>
 							<?php endforeach; ?>
@@ -51,15 +53,18 @@
 						<?php endfor; ?>
 					</ul>
 					<form action="" method="post" class="elements-per-page">
-						Displaying:
-						<select name="limit" id="limit" onchange="this.form.submit()">
-							<?php foreach ( $valid_limits as $valid_limit ): ?>
-							<option value="<?php echo $valid_limit;?>" <?php echo $limit == $valid_limit ? 'selected="selected"' : ''; ?>>
-								<?php echo $valid_limit; ?>
-							</option>
-							<?php endforeach; ?>
-						</select><br>
-						<?php echo 'Results ', $offset + 1, ' - ', $offset + count($users['records']), ' from ', $users['total_users']; ?>
+						<p>Displaying:
+							<select name="limit" id="limit" onchange="this.form.submit()">
+								<?php foreach ( $valid_limits as $valid_limit ): ?>
+								<option value="<?php echo $valid_limit;?>" <?php echo $limit == $valid_limit ? 'selected="selected"' : ''; ?>>
+									<?php echo $valid_limit; ?>
+								</option>
+								<?php endforeach; ?>
+							</select>
+						</p>
+						<p>
+							<?php echo 'Results: ', $offset + 1, ' - ', $offset + count($users['records']), ' from ', $users['total_users']; ?>
+						</p>
 					</form>
 					<?php endif; ?>
 				<?php else: ?>

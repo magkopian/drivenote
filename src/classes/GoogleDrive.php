@@ -98,6 +98,20 @@ class GoogleDrive extends GoogleService {
 
 	}
 	
+	public function getFilePermissions ( $fileId ) {
+		
+		try {
+			$permissions = $this->service->permissions->listPermissions($fileId);
+			return $permissions->getItems();
+		}
+		catch ( Google_Exception $e ){
+			$logger = new ExceptionLogger();
+			$logger->error($e);
+			throw new Exception('Unable to get file permissions.');
+		}
+		
+	}
+	
 	public function listFiles () {
 	
 		echo '<pre>', print_r($this->service->files->listFiles()), '</pre>';
