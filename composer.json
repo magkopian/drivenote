@@ -3,6 +3,9 @@
 		"google/apiclient": "1.0.*@beta",
 		"phpmailer/phpmailer": "5.*"
 	},
+	"require-dev": {
+		"fzaninotto/faker": "dev-master"
+	},
 	"autoload": {
 		"classmap": [
 			"src/classes"
