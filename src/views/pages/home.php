@@ -28,7 +28,7 @@
 						<a class="button" href="<?php echo $directoryURL; ?>" title="Click to open google drive folder"><span>Open Google Drive</span></a>
 					<?php endif; ?>
 					<?php if ( $user->isAdmin() === true ): ?>
-						<a class="button" href="admin.php" title="Click to open admin panel"><span>Admin Panel</span></a>
+						<a class="button" href="users.php" title="Click to open admin panel"><span>Admin Panel</span></a>
 					<?php endif; ?>
 					<a class="button" href="signout.php" title="Click to Sign out"><span>Sign out</span></a>
 				<?php endif; ?>

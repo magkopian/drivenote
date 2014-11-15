@@ -266,6 +266,41 @@ tr.odd td {
     background-color: #F2F2F2;
 }
 
+/* Page Navigation*/
+.page-nav {
+	margin-top: 15px;
+	text-align: center;
+	list-style: none;
+}
+
+.page-nav li {
+	display: inline-block;
+	margin-left: 5px;
+}
+
+.page-nav li a {
+	display: inline-block;
+	color: #000000;
+	background-color: #F2F2F2;
+	padding: 3px 8px;
+	text-decoration: none;
+	border: 1px solid #CCC;
+	border-radius: 2px;
+	transition: color 0.1s ease 0s;
+}
+
+.page-nav li.selected {
+	margin-left: 5px;
+	color: #777;
+	border-radius: 2px;
+	padding: 3px 4px;
+	text-decoration: none;
+}
+
+.page-nav li:hover a {
+	color: #777;
+}
+
 /* Footer */
 footer {
 	min-height: 50px;

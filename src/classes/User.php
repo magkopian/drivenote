@@ -50,11 +50,17 @@ class User {
 		if ( !$this->isAdmin() || $this->adminAccessLevel > 1 ) {
 			throw new Exception('Only administrators have the right to call the User::search() method');
 		}
-	
+
+		$offset = $offset < 0 ? 0 : (int) $offset;
+		$limit = $limit < 1 ? 0 : (int) $limit;
+		
+		$values = array();
+		$values[':offset'] = $offset;
+		$values[':limit'] = $limit;
+		
 		if ( empty($where) ) {
 			$whereClause = 'WHERE 1';
 			$havingClause = '';
-			$values = array();
 		}
 		else {
 			$havingClause = '';
@@ -63,6 +69,7 @@ class User {
 			$first_where = true;
 			
 			foreach ( $where as $condition ) {
+				
 				if ( !array_key_exists('field', $condition) || 
 					 !array_key_exists('operator', $condition) || 
 					 !array_key_exists('value', $condition) || 
@@ -75,6 +82,7 @@ class User {
 				}
 				
 				if ( $condition['field'] != 'is_admin') {
+					
 					if ( !$first_where ) {
 						$whereClause .= ' AND ';
 					}
@@ -88,6 +96,7 @@ class User {
 					
 					$whereClause .= '`' . $condition['field'] . '` ' . $condition['operator'] . ' :' . $condition['field'] . '_' . $cnt;
 					$first_where = false;
+					
 				}
 				else {
 					$havingClause = 'HAVING `' . $condition['field'] . '` ' . $condition['operator'] . ' :' . $condition['field'] . '_' . $cnt;
@@ -96,29 +105,40 @@ class User {
 				$values[':' . $condition['field'] . '_' . $cnt++] = $condition['value'];
 				
 			}
+			
 		}
 		
-		$query = 'SELECT `user`.`user_id`, `google_id`, `google_email`, `academic_email`, `verified`, `token`,
+		$query = 'SELECT SQL_CALC_FOUND_ROWS `user`.`user_id`, `google_id`,
+				 `google_email`, `academic_email`, `verified`, `token`,
 				  CASE WHEN `admin`.`user_id` IS NOT NULL 
 					   THEN 1
 					   ELSE 0
 				  END AS `is_admin`, `access_level`
 				  FROM `user` 
 				  LEFT OUTER JOIN `admin`
-				  ON `user`.`user_id` = `admin`.`user_id` ' . $whereClause . ' ' . $havingClause;
-		
-				// TODO: LIMIT, OFFSET, ORDER
+				  ON `user`.`user_id` = `admin`.`user_id` ' .
+				  $whereClause . 
+				  ' LIMIT :offset, :limit ' . 
+				  $havingClause;
 				
 		try {
 			$preparedStatement = $this->db->prepare($query);
-		
 			$preparedStatement->execute($values);
 		
+			$statement = $this->db->query('SELECT FOUND_ROWS()');
+			$totalUsers = (int) $statement->fetchColumn();
+			
 			if ( $preparedStatement->rowCount() != 0 ) {
-				return $preparedStatement->fetchAll(PDO::FETCH_ASSOC);
+				return array (
+					'total_users' => $totalUsers,
+					'records' => $preparedStatement->fetchAll(PDO::FETCH_ASSOC)
+				);
 			}
 			else {
-				return null;
+				return array (
+					'total_users' => $totalUsers,
+					'records' => null
+				);
 			}
 		}
 		catch ( PDOException $e ) {
@@ -126,6 +146,7 @@ class User {
 			$logger->error($e);
 			throw new Exception('Database error, unable search users.');
 		}
+		
 	}
 	
 	// Should get called only by an instance of GoolgeAuth class
