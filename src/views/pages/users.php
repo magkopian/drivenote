@@ -50,6 +50,17 @@
 						</li>
 						<?php endfor; ?>
 					</ul>
+					<form action="" method="post" class="elements-per-page">
+						Displaying:
+						<select name="limit" id="limit" onchange="this.form.submit()">
+							<?php foreach ( $valid_limits as $valid_limit ): ?>
+							<option value="<?php echo $valid_limit;?>" <?php echo $limit == $valid_limit ? 'selected="selected"' : ''; ?>>
+								<?php echo $valid_limit; ?>
+							</option>
+							<?php endforeach; ?>
+						</select><br>
+						<?php echo 'Results ', $offset + 1, ' - ', $offset + count($users['records']), ' from ', $users['total_users']; ?>
+					</form>
 					<?php endif; ?>
 				<?php else: ?>
 					<p>No users found in the database</p>

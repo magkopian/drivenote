@@ -233,6 +233,10 @@ label {
 	margin-right: 8px;
 }
 
+.elements-per-page {
+	margin-top: 15px;	
+}
+
 /* Tables */
 table {
 	border-collapse: collapse;
