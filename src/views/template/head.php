@@ -11,7 +11,7 @@
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1.0;">
 	<link href='http://fonts.googleapis.com/css?family=Cantarell' rel='stylesheet' type='text/css'>
-	<link rel="stylesheet" type="text/css" href="/css/basestyle.css">
+	<link rel="stylesheet" type="text/css" href="/css/basestyle.css?v=1.1.0">
 	
 	<!--[if IE]><link rel="shortcut icon" href="favicon.ico"><![endif]-->
 	<link rel="icon" href="favicon.png">
