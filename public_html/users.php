@@ -44,15 +44,23 @@ if ( empty($users['records']) && $users['total_users'] > 0 ) {
 	die();
 }
 
-$drivePermissions = $drive->getFilePermissions(DIRECTORY_ID);
-
-$userPermissions = array();
-foreach ( $drivePermissions as $drivePermission ) {
-	$userPermissions[$drivePermission->getEmailAddress()] = array (
-		'name' => $drivePermission->getName(),
-		'email' => $drivePermission->getEmailAddress(),
-		'role' => $drivePermission->getRole()
-	);
+try {
+	$drivePermissions = $drive->getFilePermissions(DIRECTORY_ID);
+	
+	$userPermissions = array();
+	foreach ( $drivePermissions as $drivePermission ) {
+		$userPermissions[$drivePermission->getEmailAddress()] = array (
+			'name' => $drivePermission->getName(),
+			'email' => $drivePermission->getEmailAddress(),
+			'role' => $drivePermission->getRole()
+		);
+	}
+}
+catch ( Exception $e ) {
+	$userPermissions = array();
+	$logger = new ExceptionLogger();
+	$logger->error($e);
+	Notifier::push('error', 'Unable to fetch permissions from Google Service, please try again later. If the error persists contact the administrator.');
 }
 
 require '../src/views/pages/users.php';
