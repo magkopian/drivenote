@@ -149,6 +149,35 @@ class User {
 		
 	}
 	
+	public function delete ( $userIds ) {
+		
+		$query = 'DELETE FROM `user` WHERE `user_id` IN ( ';
+		$values = array();
+		$cnt = 0;
+		
+		foreach ( $userIds as $userId ) {
+			if ( $cnt > 0 ) {
+				$query .= ', ';
+			}
+		
+			$query .= ':user_id_' . $cnt;
+			$values[':user_id_' . $cnt++] = $userId;
+		}
+		$query .= ' )';
+		
+		try {
+			$preparedStatement = $this->db->prepare($query);
+		
+			$preparedStatement->execute($values);
+		}
+		catch ( PDOException $e ) {
+			$logger = new ExceptionLogger();
+			$logger->error($e);
+			throw new Exception('Database error, unable to delete user(s).');
+		}
+		
+	}
+	
 	// Should get called only by an instance of GoolgeAuth class
 	public function instantiate ( $userId ) {
 		

@@ -6,6 +6,10 @@
 ?>
 <!DOCTYPE html>
 <html lang="en">
+<?php $scripts = '
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script type="text/javascript" src="/js/users.js"></script>
+'; ?>
 <?php include '../src/views/template/head.php'; ?>
 <body>
 	<div id="wrapper">
@@ -16,10 +20,10 @@
 			
 			<div id="midcol">
 				<?php if ( !empty($users['records']) ): ?>
-					<table>
+					<table id="users">
 						<thead>
 							<tr>
-								<th>ID</th>
+								<th class="checkbox-cell">ID<input type="checkbox" name="user-all" id="user-all"></th>
 								<th>Google Email</th>
 								<th>Academic Email</th>
 								<th>Status</th>
@@ -30,7 +34,10 @@
 						<tbody>
 							<?php $i = 0; foreach ( $users['records'] as $user_data ): ?>
 							<tr class="<?php echo $i++ % 2 == 0 ? 'even' : 'odd'; ?>">
-								<td><?php echo $user_data['user_id']; ?></td>
+								<td class="checkbox-cell">
+									<label for="user-<?php echo $user_data['user_id']; ?>"><?php echo $user_data['user_id']; ?></label>
+									<input type="checkbox" name="users[]" id="user-<?php echo $user_data['user_id']; ?>" value="<?php echo $user_data['user_id']; ?>">
+								</td>
 								<td><?php echo $user_data['google_email']; ?></td>
 								<td><?php echo $user_data['academic_email']; ?></td>
 								<td><?php echo $user_data['verified'] ? 'Verified' : 'Not Verified'; ?></td>
@@ -40,6 +47,11 @@
 							<?php endforeach; ?>
 						</tbody>
 					</table>
+					<div class="user-actions">
+						<a href="#" class="button button-small" data-action="delete">Delete Selected</a>
+						<a href="#" class="button button-small" data-action="revoke-read">Revoke Read Access</a>
+						<a href="#" class="button button-small" data-action="grant-read">Grant Read Access</a>
+					</div>
 					<?php if ( $last_page > 1 ): ?>
 					<ul class="page-nav">
 						<?php for ( $i = 1; $i <= $last_page; ++$i ): ?>

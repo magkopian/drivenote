@@ -178,6 +178,15 @@ header {
 	cursor: pointer;
 }
 
+.button-small {
+	padding: 3px;
+	font-size: 1.2em;
+}
+
+.user-actions {
+	margin: 0 auto;
+}
+
 .button:last-child {
 	margin-right: 0;
 }
@@ -233,6 +242,15 @@ label {
 	margin-right: 8px;
 }
 
+td label {
+	font-size: 1em;
+	margin-right: 0;
+}
+
+.checkbox-cell {
+	text-align: right;
+}
+
 .elements-per-page {
 	margin-top: 15px;	
 }
@@ -268,6 +286,10 @@ table th, table td {
 
 tr.odd td {
     background-color: #F2F2F2;
+}
+
+tr.even td {
+    background-color: #E0E0E0;
 }
 
 /* Page Navigation*/

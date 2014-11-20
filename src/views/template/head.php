@@ -27,4 +27,6 @@
 		ga('send', 'pageview');
 	</script>
 	<?php endif; ?>
+	
+	<?php echo isset($scripts) ? $scripts : ''; ?>
 </head>
