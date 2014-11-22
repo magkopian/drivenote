@@ -9,6 +9,7 @@
 <?php $scripts = '
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script type="text/javascript" src="/js/users.js"></script>
+<script type="text/javascript" src="/js/notification.js"></script>
 '; ?>
 <?php include '../src/views/template/head.php'; ?>
 <body>
@@ -49,7 +50,7 @@
 					</table>
 					<div class="user-actions">
 						<a href="#" class="button button-small" data-action="delete">Delete Selected</a>
-						<a href="#" class="button button-small" data-action="revoke-read">Revoke Read Access</a>
+						<a href="#" class="button button-small" data-action="revoke-access">Revoke Access</a>
 						<a href="#" class="button button-small" data-action="grant-read">Grant Read Access</a>
 					</div>
 					<?php if ( $last_page > 1 ): ?>

@@ -40,11 +40,15 @@ $(document).ready(function() {
 				},
 				success: function (data) {
 					if ( data.status != 0 ) {
-						alert(data.msg);
+						$(document).notify({
+							'typeClass': 'error',
+							'titleTxt': 'Error',
+							'messageTxt': data.msg
+						});
 					}
 					else {
-						if ( action = 'delete' ) {
-							
+						if ( action == 'delete' ) {
+
 							// Removed not deleted users from users array
 							users = users.filter( function( el ) {
 								return data.notDeleted.indexOf(el) < 0;
@@ -62,20 +66,24 @@ $(document).ready(function() {
 							
 							// If not all users got deleted display warning
 							if ( data.notDeleted.length > 0 ) {
-								
+								$(document).notify({
+									'typeClass': 'warning',
+									'titleTxt': 'Warning',
+									'messageTxt': data.msg
+								});
 							}
 							
 						}
-						else if ( action = 'revoke-read' ) {
+						else if ( action == 'revoke-access' ) {
 							// Add reader
 						}
-						else if ( action = 'grant-read' ) {
+						else if ( action == 'grant-read' ) {
 							// Remove reader
 						}
 					}
 				},
 				error: function(xhr, status, error) {
-					console.log(xhr.status + ' ' + error);
+					$(document).notify();
 				},
 				dataType: 'json'
 			});

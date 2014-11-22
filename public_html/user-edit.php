@@ -12,7 +12,7 @@ else if ( !isset($_POST['action'], $_POST['users']) || empty($_POST['action']) |
 	header('HTTP/1.1 404 Not Found');
 	die();
 }
-else if ( !is_array($_POST['users']) || !in_array($_POST['action'], array('delete', 'revoke-read', 'grant-read')) ) {
+else if ( !is_array($_POST['users']) || !in_array($_POST['action'], array('delete', 'revoke-access', 'grant-read')) ) {
 	header('HTTP/1.1 404 Not Found');
 	die();
 }
@@ -31,24 +31,34 @@ try {
 	
 	if ( $_POST['action'] == 'delete' ) {
 		$not_deleted = $user->delete($users);
+		$msg = '';
+		
+		if ( count($not_deleted) > 0 ) {
+			$msg = 'You don\'t  have the right to delete the user';
+			if ( count($not_deleted) > 1 ) {
+				$msg .= 's';
+			}
+			$msg .= ': ' . implode(', ', $not_deleted);
+		}
 		
 		$responce = array(
 			'status' => 0,
-			'notDeleted' => $not_deleted
+			'notDeleted' => $not_deleted,
+			'msg' => $msg
 		);
 	}
-	else if ( $_POST['action'] == 'revoke-read' ) {
+	else if ( $_POST['action'] == 'revoke-access' ) {
 		// Revoke read access
 		
 		$responce = array(
-				'status' => 0
+			'status' => 0
 		);
 	}
 	else if ( $_POST['action'] == 'grant-read' ) {
 		// Grant read access
 		
 		$responce = array(
-				'status' => 0
+			'status' => 0
 		);
 	}
 	
