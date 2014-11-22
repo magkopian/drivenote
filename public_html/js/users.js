@@ -20,8 +20,14 @@ $(document).ready(function() {
 		var users = new Array(),
 			action = $(this).data('action');
 		
+		// From the checked users
 		$.each($('input[name="users[]"]:checked'), function() {
-			users.push($(this).val());
+			
+			// Add to the array only those that are not already removed
+			if ( $(this).parent().length ) {
+				users.push($(this).val());
+			}
+			
 		});
 		
 		if ( users.length > 0 ) {
@@ -38,10 +44,27 @@ $(document).ready(function() {
 					}
 					else {
 						if ( action = 'delete' ) {
-							$('input[name="users[]"]:checked').parents('tr').children('td')
-							.css('background-color', '#FF2200')
-							.css('border-color', '#FF2200').fadeOut(600)
-							.css('border-color', '#FFF');
+							
+							// Removed not deleted users from users array
+							users = users.filter( function( el ) {
+								return data.notDeleted.indexOf(el) < 0;
+							});
+
+							// Removed deleted rows of deleted users
+							$('input[name="users[]"]:checked').each(function() {	
+								if ( $.inArray($(this).val(), users) != -1 ) {
+									$(this).parents('tr').children('td').css('background-color', '#FF2200')
+										.css('border-color', '#FFF').fadeOut(600, function () {
+											$(this).remove();
+									});
+								}
+							});
+							
+							// If not all users got deleted display warning
+							if ( data.notDeleted.length > 0 ) {
+								
+							}
+							
 						}
 						else if ( action = 'revoke-read' ) {
 							// Add reader
@@ -62,4 +85,5 @@ $(document).ready(function() {
 	});
 	
 	$('div.user-actions').width($('table#users').width()).css('text-align', 'left');
+	
 });

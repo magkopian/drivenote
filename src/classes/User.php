@@ -151,24 +151,49 @@ class User {
 	
 	public function delete ( $userIds ) {
 		
-		$query = 'DELETE FROM `user` WHERE `user_id` IN ( ';
+		$where = 'WHERE `user_id` IN ( ';
 		$values = array();
 		$cnt = 0;
 		
 		foreach ( $userIds as $userId ) {
 			if ( $cnt > 0 ) {
-				$query .= ', ';
+				$where .= ', ';
 			}
 		
-			$query .= ':user_id_' . $cnt;
+			$where .= ':user_id_' . $cnt;
 			$values[':user_id_' . $cnt++] = $userId;
 		}
-		$query .= ' )';
+		$where .= ' )';
+		
+		// Only an admin with access level < 1 is able to delete other admins
+		if ( $this->adminAccessLevel > 0 ) {
+			$query_delete_user = 'DELETE FROM `user` ' . $where . ' AND `user_id` NOT IN ( SELECT `user_id` FROM `admin` )';
+		}
+		else {
+			$query_delete_admin = 'DELETE FROM `admin` ' . $where . ' AND `user_id` != :user_id_self';
+			$query_delete_user = 'DELETE FROM `user` ' . $where . ' AND `user_id` != :user_id_self';
+			
+			// Prevent admins to delete themselves
+			$values[':user_id_self'] = $this->userId;
+		}
 		
 		try {
-			$preparedStatement = $this->db->prepare($query);
-		
+			
+			if ( $this->adminAccessLevel < 1 ) {
+				$preparedStatement = $this->db->prepare($query_delete_admin);
+				$preparedStatement->execute($values);
+			}
+			
+			$preparedStatement = $this->db->prepare($query_delete_user);
 			$preparedStatement->execute($values);
+			
+			$query_select_not_deleted = 'SELECT `user_id` FROM `user` ' . $where;
+			if ( isset($values[':user_id_self']) ) unset($values[':user_id_self']);
+			
+			$preparedStatement = $this->db->prepare($query_select_not_deleted);
+			$preparedStatement->execute($values);
+			
+			return $preparedStatement->fetchAll(PDO::FETCH_COLUMN);
 		}
 		catch ( PDOException $e ) {
 			$logger = new ExceptionLogger();
@@ -248,6 +273,12 @@ class User {
 	public function getAcademicEmail () {
 	
 		return $this->academicEmail;
+	
+	}
+	
+	public function getAdminAccessLevel () {
+	
+		return $this->adminAccessLevel;
 	
 	}
 	
