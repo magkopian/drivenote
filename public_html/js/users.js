@@ -51,7 +51,7 @@ $(document).ready(function() {
 
 							// Removed not deleted users from users array
 							users = users.filter( function( el ) {
-								return data.notDeleted.indexOf(el) < 0;
+								return data.notModified.indexOf(el) < 0;
 							});
 
 							// Removed deleted rows of deleted users
@@ -64,8 +64,8 @@ $(document).ready(function() {
 								}
 							});
 							
-							// If not all users got deleted display warning
-							if ( data.notDeleted.length > 0 ) {
+							// If not all selected users got deleted display warning
+							if ( data.notModified.length > 0 ) {
 								$(document).notify({
 									'typeClass': 'warning',
 									'titleTxt': 'Warning',
@@ -76,9 +76,27 @@ $(document).ready(function() {
 						}
 						else if ( action == 'revoke-access' ) {
 							// Add reader
+							
+							// If not all selected users got modified display warning
+							if ( data.notModified.length > 0 ) {
+								$(document).notify({
+									'typeClass': 'warning',
+									'titleTxt': 'Warning',
+									'messageTxt': data.msg
+								});
+							}
 						}
 						else if ( action == 'grant-read' ) {
 							// Remove reader
+							
+							// If not all selected users got modified display warning
+							if ( data.notModified.length > 0 ) {
+								$(document).notify({
+									'typeClass': 'warning',
+									'titleTxt': 'Warning',
+									'messageTxt': data.msg
+								});
+							}
 						}
 					}
 				},

@@ -36,16 +36,7 @@ class User {
 		
 	}
 	
-	public function find ( $userId ) {
-		
-		if ( !$this->isAdmin() || $this->adminAccessLevel > 1 ) {
-			throw new Exception('Only administrators have the right to call the User::find() method');
-		}
-		
-		return $this->fetch($userId);
-	}
-	
-	public function search ( $where, $offset, $limit ) {
+	public function search ( $where, $offset, $limit, $fields = array() ) {
 	
 		if ( !$this->isAdmin() || $this->adminAccessLevel > 1 ) {
 			throw new Exception('Only administrators have the right to call the User::search() method');
@@ -84,7 +75,18 @@ class User {
 				if ( $condition['field'] != 'is_admin') {
 					
 					if ( !$first_where ) {
-						$whereClause .= ' AND ';
+						
+						if ( array_key_exists('restrict', $condition) && $condition['restrict'] === false ) {
+						
+							$whereClause .= ' OR ';
+							
+						}
+						else {
+							
+							$whereClause .= ' AND ';
+							
+						}
+						
 					}
 					else {
 						$whereClause = 'WHERE ';
@@ -108,12 +110,60 @@ class User {
 			
 		}
 		
-		$query = 'SELECT SQL_CALC_FOUND_ROWS `user`.`user_id`, `google_id`,
-				 `google_email`, `academic_email`, `verified`, `token`,
-				  CASE WHEN `admin`.`user_id` IS NOT NULL 
-					   THEN 1
-					   ELSE 0
-				  END AS `is_admin`, `access_level`
+		if ( empty($fields) ) {
+			$fields = array(
+				'user_id', 
+				'google_id', 
+				'google_email', 
+				'academic_email', 
+				'verified', 
+				'is_admin', 
+				'access_level'
+			);
+		}
+		
+		$select = '';
+		if ( !is_array($fields) ) {
+			throw new Exception('$fields argument supplied to User::search() method needs to be array');
+		}
+		else {
+			
+			$first_select = true;
+			
+			foreach ( $fields as $field ) {
+
+				if ( empty($field) || !in_array($field, array('user_id', 'google_id', 'google_email', 'academic_email', 'verified', 'is_admin', 'access_level')) ) {
+						
+					throw new Exception('Invalid $fields argument supplied to User::search() method');
+				}
+				
+				if ( !$first_select ) {
+					$select .= ', ';
+				}
+				
+				if ( $field != 'is_admin') {
+						
+					if ( $field == 'user_id' ) {
+						$select .= '`user`.';
+					}
+						
+					$select .= '`' . $field . '`';
+						
+				}
+				else {
+					$select .= 
+						'CASE WHEN `admin`.`user_id` IS NOT NULL 
+							THEN 1
+							ELSE 0
+				  		 END AS `is_admin`';
+				}
+				
+				$first_select = false;
+			}
+			
+		}
+		
+		$query = 'SELECT SQL_CALC_FOUND_ROWS ' . $select . '
 				  FROM `user` 
 				  LEFT OUTER JOIN `admin`
 				  ON `user`.`user_id` = `admin`.`user_id` ' .
@@ -127,11 +177,11 @@ class User {
 		
 			$statement = $this->db->query('SELECT FOUND_ROWS()');
 			$totalUsers = (int) $statement->fetchColumn();
-			
+
 			if ( $preparedStatement->rowCount() != 0 ) {
 				return array (
 					'total_users' => $totalUsers,
-					'records' => $preparedStatement->fetchAll(PDO::FETCH_ASSOC)
+					'records' => count($fields) > 1 ? $preparedStatement->fetchAll(PDO::FETCH_ASSOC) : $preparedStatement->fetchAll(PDO::FETCH_COLUMN)
 				);
 			}
 			else {

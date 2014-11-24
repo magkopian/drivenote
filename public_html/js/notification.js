@@ -51,20 +51,19 @@
 		});
 		
 		message = $('<p />', {
-			'text': settings.messageTxt
+			'html': settings.messageTxt
 		});
 		
 		notification = $('<div />', {
 			'class': settings.notificationClass + ' ' + settings.typeClass
-		}).append(title, message, close).animate({
-			'height': settings.notificationHeight
-		}, 200 );
+		}).append(title, message, close);
 		
-		
-		//$('div#content').prepend(notification);
 		$('body').prepend(notification, shade);
 		
-		//$('html, body').animate({ scrollTop : 0 }, 800);
+		var autoHeight = notification.height();
+		notification.height(0).animate({
+			'height': autoHeight
+		}, 200 );
 		
 	};
 })(jQuery);

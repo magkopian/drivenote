@@ -55,7 +55,7 @@ class GoogleDrive extends GoogleService {
 	
 	}
 	
-	public function revokeReadAccess ( $googleEmail, $fileId ) {
+	public function revokeAccess ( $googleEmail, $fileId ) {
 	
 		$permissionId = $this->service->permissions->getIdForEmail($googleEmail);
 	
