@@ -50,7 +50,7 @@ try {
 	$userPermissions = array();
 	foreach ( $drivePermissions as $drivePermission ) {
 		$userPermissions[$drivePermission->getEmailAddress()] = array (
-			'name' => $drivePermission->getName(),
+			'name' => $drivePermission->getDisplayName(),
 			'email' => $drivePermission->getEmailAddress(),
 			'role' => $drivePermission->getRole()
 		);

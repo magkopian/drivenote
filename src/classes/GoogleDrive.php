@@ -43,15 +43,15 @@ class GoogleDrive extends GoogleService {
 	
 	public function grantReadAccess ( $googleEmail, $fileId ) {
 		
-		// Create a new permition object to give read access to a user
-		$permition = new Google_Service_Drive_Permission();
-		$permition->setRole('reader');
-		$permition->setType('user');
-		$permition->setValue($googleEmail);
+		// Create a new permission object to give read access to a user
+		$permission = new Google_Service_Drive_Permission();
+		$permission->setRole('reader');
+		$permission->setType('user');
+		$permission->setEmailAddress($googleEmail);
 	
-		// Apply the permition to the file/directory
+		// Apply the permission to the file/directory
 		$permissions = $this->service->permissions;
-		$permissions->insert($fileId, $permition);
+		$permissions->create($fileId, $permission);
 	
 	}
 	
@@ -77,7 +77,9 @@ class GoogleDrive extends GoogleService {
 	public function getFileURL ( $fileId ) {
 		
 		$fileMetadata = $this->getFileMetadata($fileId);
+
 		if ( !isset($fileMetadata['driveLink']) || empty($fileMetadata['driveLink']) ) {
+
 			return false;
 		}
 		
@@ -86,14 +88,14 @@ class GoogleDrive extends GoogleService {
 	
 	public function getFileMetadata ( $fileId ) {
 
-		$file = $this->service->files->get($fileId);
+		$file = $this->service->files->get($fileId, array('fields' => 'name,description,mimeType,webViewLink,webContentLink'));
 
 		return array (
-			'filename' => $file->getTitle(),
+			'filename' => $file->getName(),
 			'description' => $file->getDescription(),
 			'mimeType' => $file->getMimeType(),
-			'driveLink' => $file->getAlternateLink(),
-			'downloadUrl' => $file->getDownloadUrl()
+			'driveLink' => $file->getWebViewLink(),
+			'downloadUrl' => $file->getWebContentLink()
 		);
 
 	}
@@ -101,8 +103,8 @@ class GoogleDrive extends GoogleService {
 	public function getFilePermissions ( $fileId ) {
 		
 		try {
-			$permissions = $this->service->permissions->listPermissions($fileId);
-			return $permissions->getItems();
+			$permissions = $this->service->permissions->listPermissions($fileId, array('fields' => 'kind,permissions'));
+			return $permissions->getPermissions();
 		}
 		catch ( Google_Exception $e ){
 			$logger = new ExceptionLogger();
