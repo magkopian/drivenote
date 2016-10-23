@@ -2,6 +2,7 @@
 
 .buildpath
 .project
+.idea
 src/config.php
 src/config.prod.php
 

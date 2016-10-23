@@ -1,6 +1,6 @@
 {
 	"require": {
-		"google/apiclient": "1.0.*@beta",
+		"google/apiclient": "1.*",
 		"phpmailer/phpmailer": "5.*"
 	},
 	"require-dev": {
