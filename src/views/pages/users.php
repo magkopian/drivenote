@@ -35,15 +35,15 @@
 						<tbody>
 							<?php $i = 0; foreach ( $users['records'] as $user_data ): ?>
 							<tr class="<?php echo $i++ % 2 == 0 ? 'even' : 'odd'; ?>">
-								<td class="checkbox-cell">
+								<td class="uid checkbox-cell">
 									<label for="user-<?php echo $user_data['user_id']; ?>"><?php echo $user_data['user_id']; ?></label>
 									<input type="checkbox" name="users[]" id="user-<?php echo $user_data['user_id']; ?>" value="<?php echo $user_data['user_id']; ?>">
 								</td>
-								<td><?php echo $user_data['google_email']; ?></td>
-								<td><?php echo $user_data['academic_email']; ?></td>
-								<td><?php echo $user_data['verified'] ? 'Verified' : 'Not Verified'; ?></td>
-								<td><?php echo isset($userPermissions[$user_data['google_email']]) ? ucfirst($userPermissions[$user_data['google_email']]['role']) : ''; ?></td>
-								<td><?php echo $user_data['is_admin'] ? $user_data['access_level'] > 0 ? 'Moderator' : 'Administrator' : ''; ?></td>
+								<td class="gmail"><?php echo $user_data['google_email']; ?></td>
+								<td class="amail"><?php echo $user_data['academic_email']; ?></td>
+								<td class="status"><?php echo $user_data['verified'] ? 'Verified' : 'Not Verified'; ?></td>
+								<td class="role"><?php echo isset($userPermissions[$user_data['google_email']]) ? ucfirst($userPermissions[$user_data['google_email']]['role']) : ''; ?></td>
+								<td class="extra"><?php echo $user_data['is_admin'] ? $user_data['access_level'] > 0 ? 'Moderator' : 'Administrator' : ''; ?></td>
 							<tr>
 							<?php endforeach; ?>
 						</tbody>

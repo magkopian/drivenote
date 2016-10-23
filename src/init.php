@@ -11,8 +11,17 @@ session_start();
 
 try {
 	$db = Database::getInstance();
-	$user = new User($db);
-	
+
+	try {
+		$user = new User($db);
+	}
+	catch ( UserNotFoundException $e ) {
+		$_SESSION = array();
+		session_destroy();
+		header('Location: /');
+		die();
+	}
+
 	$googleClient = new Google_Client();
 	$googleClient->setApplicationName(APP_NAME);
 	$auth = new GoogleAuth($googleClient, $user, $db);

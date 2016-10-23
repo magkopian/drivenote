@@ -33,17 +33,50 @@ try {
 	$msg = '';
 	
 	if ( $_POST['action'] == 'delete' ) {
-		// TODO: Check access level
-		
-		// TODO: More detailed messages for delete
-		
-		// TODO: Warn if user has access to the drive
-		
-		$not_modified = $user->delete($userIds);
 
-		if ( count($not_modified) > 0 ) {
-			$msg = 'You dont have the right to delete users ' . implode(', ', $not_modified);
+		foreach ( $userIds as $userId ) {
+			$where[] = [
+				'field'    => 'user_id',
+				'operator' => '=',
+				'value'    => $userId,
+				'restrict' => false
+			];
 		}
+
+		$users = $user->search($where, 0, 9999, ['user_id', 'google_email', 'is_admin']);
+
+		if ( !empty($users) ) {
+
+			$drivePermissions = $drive->getFilePermissions(DIRECTORY_ID);
+
+			$userPermissions = array();
+			foreach ( $drivePermissions as $drivePermission ) {
+				$userPermissions[$drivePermission->getEmailAddress()] = $drivePermission->getRole();
+				$userPermissionsIds[$drivePermission->getEmailAddress()] = $drivePermission->getId();
+			}
+
+			foreach ( $users['records'] as $user_data ) {
+
+				if ( $user->getUserId() == $user_data['user_id'] ) {
+					$msg .= 'You can\'t delete yourself!' . "\n";
+					$not_modified[] = $user_data['user_id'];
+				}
+				else if ( $user->getAdminAccessLevel() > 0 && $user_data['is_admin'] ) {
+					$msg .= 'The user ' . $user_data['google_email'] . ' is an administrator and you don\'t have the right to delete administrators.' . "\n";
+					$not_modified[] = $user_data['user_id'];
+				}
+				else if ( isset($userPermissions[$user_data['google_email']]) && !empty($userPermissions[$user_data['google_email']]) ) {
+					$msg .= 'The user ' . $user_data['google_email'] . ' already has access to the drive, you need to revoke it first.' . "\n";
+					$not_modified[] = $user_data['user_id'];
+				}
+				else {
+					$user->delete($user_data['user_id']);
+				}
+
+			}
+
+		}
+
 	}
 	else if ( $_POST['action'] == 'revoke-access' || $_POST['action'] == 'grant-read' ) {
 		
@@ -65,6 +98,7 @@ try {
 			$userPermissions = array();
 			foreach ( $drivePermissions as $drivePermission ) {
 				$userPermissions[$drivePermission->getEmailAddress()] = $drivePermission->getRole();
+				$userPermissionsIds[$drivePermission->getEmailAddress()] = $drivePermission->getId();
 			}
 			
 			foreach ( $users['records'] as $user_data ) {
@@ -84,7 +118,7 @@ try {
 						$not_modified[] = $user_data['user_id'];
 					}
 					else {
-						$drive->revokeAccess($user_data['google_email'], DIRECTORY_ID);
+						$drive->revokeAccess($userPermissionsIds[$user_data['google_email']], DIRECTORY_ID);
 					}
 				}// Grant read access
 				else if ( $_POST['action'] == 'grant-read' ) {

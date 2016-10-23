@@ -329,7 +329,7 @@ tr.odd td {
 }
 
 tr.even td {
-    background-color: #E0E0E0;
+    /*background-color: #E0E0E0;*/
 }
 
 /* Page Navigation*/

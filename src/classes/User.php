@@ -26,7 +26,7 @@ class User {
 			$userData = $this->fetch($this->userId);
 			
 			if ( $userData === null || empty($userData) ) {
-				throw new Exception('Unable to fetch user, user with `user_id` ' . (int) $this->userId . ' could not be found');
+				throw new UserNotFoundException('Unable to fetch user, user with `user_id` ' . (int) $this->userId . ' could not be found');
 			}
 			else {
 				$this->initialize($userData);
@@ -198,8 +198,43 @@ class User {
 		}
 		
 	}
-	
-	public function delete ( $userIds ) {
+
+	public function delete ( $userId ) {
+
+		// Only an admin with access level < 1 is able to delete other admins
+		if ( $this->adminAccessLevel > 0 ) {
+			$query_delete_user = 'DELETE FROM `user` WHERE `user_id` = :user_id AND `user_id` NOT IN ( SELECT `user_id` FROM `admin` )';
+		}
+		else {
+			$query_delete_admin = 'DELETE FROM `admin` WHERE `user_id` = :user_id AND `user_id` != :user_id_self';
+			$query_delete_user = 'DELETE FROM `user` WHERE `user_id` = :user_id AND `user_id` != :user_id_self';
+
+			// Prevent admins to delete themselves
+			$values[':user_id_self'] = $this->userId;
+		}
+
+		$values[':user_id'] = $userId;
+
+		try {
+
+			if ( $this->adminAccessLevel < 1 ) {
+				$preparedStatement = $this->db->prepare($query_delete_admin);
+				$preparedStatement->execute($values);
+			}
+
+			$preparedStatement = $this->db->prepare($query_delete_user);
+			$preparedStatement->execute($values);
+
+		}
+		catch ( PDOException $e ) {
+			$logger = new ExceptionLogger();
+			$logger->error($e);
+			throw new Exception('Database error, unable to delete user.');
+		}
+
+	}
+
+	public function deleteMany ( $userIds ) {
 		
 		$where = 'WHERE `user_id` IN ( ';
 		$values = array();

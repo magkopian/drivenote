@@ -75,8 +75,18 @@ $(document).ready(function() {
 							
 						}
 						else if ( action == 'revoke-access' ) {
-							// Add reader
-							
+							// Removed not modified users from users array
+							users = users.filter( function( el ) {
+								return data.notModified.indexOf(el) < 0;
+							});
+
+							// Remove reader
+							$('input[name="users[]"]:checked').each(function() {
+								if ( $.inArray($(this).val(), users) != -1 ) {
+									$(this).parents('tr').children('td.role').html('');
+								}
+							});
+
 							// If not all selected users got modified display warning
 							if ( data.notModified.length > 0 ) {
 								$(document).notify({
@@ -87,8 +97,18 @@ $(document).ready(function() {
 							}
 						}
 						else if ( action == 'grant-read' ) {
-							// Remove reader
-							
+							// Removed not modified users from users array
+							users = users.filter( function( el ) {
+								return data.notModified.indexOf(el) < 0;
+							});
+
+							// Add reader
+							$('input[name="users[]"]:checked').each(function() {
+								if ( $.inArray($(this).val(), users) != -1 ) {
+									$(this).parents('tr').children('td.role').html('Reader');
+								}
+							});
+
 							// If not all selected users got modified display warning
 							if ( data.notModified.length > 0 ) {
 								$(document).notify({
