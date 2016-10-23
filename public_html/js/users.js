@@ -1,5 +1,5 @@
 /**********************************************\
-* Copyright (c) 2014 Manolis Agkopian          *
+* Copyright (c) 2016 Manolis Agkopian          *
 * See the file LICENCE for copying permission. *
 \**********************************************/
 
@@ -59,7 +59,11 @@ $(document).ready(function() {
 								if ( $.inArray($(this).val(), users) != -1 ) {
 									$(this).parents('tr').children('td').css('background-color', '#FF2200')
 										.css('border-color', '#FFF').fadeOut(600, function () {
-											$(this).remove();
+											$(this).parents('tr').remove();
+											$('.odd').removeClass('odd');
+											$('.even').removeClass('even');
+											$('table tbody tr:nth-child(odd)').addClass('odd');
+											$('table tbody tr:nth-child(even)').addClass('even');
 									});
 								}
 							});
@@ -118,6 +122,8 @@ $(document).ready(function() {
 								});
 							}
 						}
+
+						$('div.user-actions').width($('table#users').width()).css('text-align', 'left');
 					}
 				},
 				error: function(xhr, status, error) {

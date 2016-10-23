@@ -219,7 +219,7 @@ header {
 }
 
 .button-small {
-	padding: 3px;
+	padding: 5px;
 	font-size: 1.2em;
 }
 
@@ -326,10 +326,6 @@ table th, table td {
 
 tr.odd td {
     background-color: #F2F2F2;
-}
-
-tr.even td {
-    /*background-color: #E0E0E0;*/
 }
 
 /* Page Navigation*/

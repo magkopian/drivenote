@@ -34,7 +34,7 @@
 						</thead>
 						<tbody>
 							<?php $i = 0; foreach ( $users['records'] as $user_data ): ?>
-							<tr class="<?php echo $i++ % 2 == 0 ? 'even' : 'odd'; ?>">
+							<tr class="<?php echo $i++ % 2 == 0 ? 'odd' : 'even'; ?>">
 								<td class="uid checkbox-cell">
 									<label for="user-<?php echo $user_data['user_id']; ?>"><?php echo $user_data['user_id']; ?></label>
 									<input type="checkbox" name="users[]" id="user-<?php echo $user_data['user_id']; ?>" value="<?php echo $user_data['user_id']; ?>">
@@ -44,7 +44,7 @@
 								<td class="status"><?php echo $user_data['verified'] ? 'Verified' : 'Not Verified'; ?></td>
 								<td class="role"><?php echo isset($userPermissions[$user_data['google_email']]) ? ucfirst($userPermissions[$user_data['google_email']]['role']) : ''; ?></td>
 								<td class="extra"><?php echo $user_data['is_admin'] ? $user_data['access_level'] > 0 ? 'Moderator' : 'Administrator' : ''; ?></td>
-							<tr>
+							</tr>
 							<?php endforeach; ?>
 						</tbody>
 					</table>

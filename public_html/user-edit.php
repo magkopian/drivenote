@@ -32,53 +32,7 @@ try {
 	$not_modified = array();
 	$msg = '';
 	
-	if ( $_POST['action'] == 'delete' ) {
-
-		foreach ( $userIds as $userId ) {
-			$where[] = [
-				'field'    => 'user_id',
-				'operator' => '=',
-				'value'    => $userId,
-				'restrict' => false
-			];
-		}
-
-		$users = $user->search($where, 0, 9999, ['user_id', 'google_email', 'is_admin']);
-
-		if ( !empty($users) ) {
-
-			$drivePermissions = $drive->getFilePermissions(DIRECTORY_ID);
-
-			$userPermissions = array();
-			foreach ( $drivePermissions as $drivePermission ) {
-				$userPermissions[$drivePermission->getEmailAddress()] = $drivePermission->getRole();
-				$userPermissionsIds[$drivePermission->getEmailAddress()] = $drivePermission->getId();
-			}
-
-			foreach ( $users['records'] as $user_data ) {
-
-				if ( $user->getUserId() == $user_data['user_id'] ) {
-					$msg .= 'You can\'t delete yourself!' . "\n";
-					$not_modified[] = $user_data['user_id'];
-				}
-				else if ( $user->getAdminAccessLevel() > 0 && $user_data['is_admin'] ) {
-					$msg .= 'The user ' . $user_data['google_email'] . ' is an administrator and you don\'t have the right to delete administrators.' . "\n";
-					$not_modified[] = $user_data['user_id'];
-				}
-				else if ( isset($userPermissions[$user_data['google_email']]) && !empty($userPermissions[$user_data['google_email']]) ) {
-					$msg .= 'The user ' . $user_data['google_email'] . ' already has access to the drive, you need to revoke it first.' . "\n";
-					$not_modified[] = $user_data['user_id'];
-				}
-				else {
-					$user->delete($user_data['user_id']);
-				}
-
-			}
-
-		}
-
-	}
-	else if ( $_POST['action'] == 'revoke-access' || $_POST['action'] == 'grant-read' ) {
+	if ( $_POST['action'] == 'revoke-access' || $_POST['action'] == 'grant-read' || $_POST['action'] == 'delete' ) {
 		
 		foreach ( $userIds as $userId ) {
 			$where[] = array (
@@ -102,9 +56,29 @@ try {
 			}
 			
 			foreach ( $users['records'] as $user_data ) {
-				
-				// Revoke access
-				if ( $_POST['action'] == 'revoke-access' ) {
+
+				// Delete user
+				if ( $_POST['action'] == 'delete' ) {
+
+					if ( $user->getUserId() == $user_data['user_id'] ) {
+						$msg .= 'You can\'t delete yourself!' . "\n";
+						$not_modified[] = $user_data['user_id'];
+					}
+					else if ( $user->getAdminAccessLevel() > 0 && $user_data['is_admin'] ) {
+						$msg .= 'The user ' . $user_data['google_email'] . ' is an administrator and you don\'t have the right to delete administrators.' . "\n";
+						$not_modified[] = $user_data['user_id'];
+					}
+					else if ( isset($userPermissions[$user_data['google_email']]) && !empty($userPermissions[$user_data['google_email']]) ) {
+						$msg .= 'The user ' . $user_data['google_email'] . ' already has access to the drive, you need to revoke it first.' . "\n";
+						$not_modified[] = $user_data['user_id'];
+					}
+					else {
+						$user->delete($user_data['user_id']);
+					}
+
+				} // Revoke access
+				else if ( $_POST['action'] == 'revoke-access' ) {
+
 					if ( $user->getUserId() == $user_data['user_id'] ) {
 						$msg .= 'You can\'t revoke access to the drive from yourself!' . "\n";
 						$not_modified[] = $user_data['user_id'];
@@ -120,8 +94,10 @@ try {
 					else {
 						$drive->revokeAccess($userPermissionsIds[$user_data['google_email']], DIRECTORY_ID);
 					}
-				}// Grant read access
+
+				} // Grant read access
 				else if ( $_POST['action'] == 'grant-read' ) {
+
 					if ( $user->getUserId() == $user_data['user_id'] ) {
 						$msg .= 'You can\'t change your own permissions to the drive!' . "\n";
 						$not_modified[] = $user_data['user_id'];
@@ -137,6 +113,7 @@ try {
 					else {
 						$drive->grantReadAccess($user_data['google_email'], DIRECTORY_ID);
 					}
+
 				}
 				
 			}
