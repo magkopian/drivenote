@@ -31,6 +31,17 @@ $(document).ready(function() {
 		});
 		
 		if ( users.length > 0 ) {
+
+			if ( action == 'delete' ) {
+				$('a[data-action="delete"]').addClass('disabled');
+			}
+			else if ( action == 'revoke-access' ) {
+				$('a[data-action="revoke-access"]').addClass('disabled');
+			}
+			else if ( action == 'grant-read' ) {
+				$('a[data-action="grant-read"]').addClass('disabled');
+			}
+
 			$.ajax({
 				type: 'POST',
 				url: '/user-edit.php',
@@ -76,9 +87,12 @@ $(document).ready(function() {
 									'messageTxt': data.msg
 								});
 							}
-							
+
+							$('a[data-action="delete"]').removeClass('disabled');
+
 						}
 						else if ( action == 'revoke-access' ) {
+
 							// Removed not modified users from users array
 							users = users.filter( function( el ) {
 								return data.notModified.indexOf(el) < 0;
@@ -99,8 +113,11 @@ $(document).ready(function() {
 									'messageTxt': data.msg
 								});
 							}
+
+							$('a[data-action="revoke-access"]').removeClass('disabled');
 						}
 						else if ( action == 'grant-read' ) {
+
 							// Removed not modified users from users array
 							users = users.filter( function( el ) {
 								return data.notModified.indexOf(el) < 0;
@@ -121,6 +138,8 @@ $(document).ready(function() {
 									'messageTxt': data.msg
 								});
 							}
+
+							$('a[data-action="grant-read"]').removeClass('disabled');
 						}
 
 						$('div.user-actions').width($('table#users').width()).css('text-align', 'left');

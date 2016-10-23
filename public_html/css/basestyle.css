@@ -223,6 +223,12 @@ header {
 	font-size: 1.2em;
 }
 
+a.disabled {
+	pointer-events: none;
+	cursor: default;
+	opacity: 0.6;
+}
+
 .user-actions {
 	margin: 0 auto;
 }
