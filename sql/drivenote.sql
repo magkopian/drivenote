@@ -44,6 +44,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `google_email` varchar(255) NOT NULL,
   `academic_email` varchar(255) DEFAULT NULL,
   `verified` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `approved` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `token` char(32) DEFAULT NULL,
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `google_id` (`google_id`)

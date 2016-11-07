@@ -1,7 +1,7 @@
-/**********************************************\
-* Copyright (c) 2014 Manolis Agkopian          *
-* See the file LICENCE for copying permission. *
-\**********************************************/
+/************************************************\
+ * Copyright (c) 2016 Manolis Agkopian          *
+ * See the file LICENCE for copying permission. *
+\************************************************/
 
 /*Stylesheet Reset-Preset*/
 html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td {
@@ -68,6 +68,15 @@ header {
 
 #midcol {
 	text-align: center;
+}
+
+textarea {
+	padding: 15px;
+}
+
+.textarea-static {
+	resize: none;
+	overflow: hidden;
 }
 
 /* Notifications */
@@ -219,8 +228,12 @@ header {
 }
 
 .button-small {
-	padding: 5px;
+	padding: 6px;
 	font-size: 1.2em;
+}
+
+input.button-small {
+	padding: 5px;
 }
 
 a.disabled {
@@ -229,8 +242,17 @@ a.disabled {
 	opacity: 0.6;
 }
 
+.button-danger {
+	color: #fff;
+	background: #d9534f;
+}
+
 .user-actions {
 	margin: 15px auto 0;
+}
+
+.user-actions form {
+	display: inline-block;
 }
 
 .button:last-child {
@@ -245,6 +267,10 @@ a.disabled {
 	-moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
 	-webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
 	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+}
+
+.button-danger:hover {
+	background: #c9302c;
 }
 
 .button:focus {
@@ -268,6 +294,10 @@ a.disabled {
 	-webkit-box-shadow: inset 0 2px 0 rgba(0, 0, 0, 0.15);
 	box-shadow: inset 0 2px 0 rgba(0, 0, 0, 0.15);
 	border: 1px solid rgba(0, 0, 0, 0);
+}
+
+.button-danger:active {
+	background: #c9302c;
 }
 
 /* Forms */
@@ -332,6 +362,22 @@ table th, table td {
 
 tr.odd td {
 	background-color: #f2f2f2;
+}
+
+#users {
+	margin-top: 10px;
+}
+
+.table-success {
+	color: #4f8746;
+	/*background-color: #d4ffcd !important;*/
+	font-weight: bold;
+}
+
+.table-error {
+	color: #641f1a;
+	/*background-color: #f88 !important;*/
+	font-weight: bold;
 }
 
 /* Page Navigation*/
@@ -418,6 +464,14 @@ footer a:hover {
 	table th, table td {
 		font-size: 0.8em;
 		padding: 0.3em 0.6em;
+	}
+
+	textarea {
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		box-sizing: border-box;
+
+		width: 100%;
 	}
 }
 

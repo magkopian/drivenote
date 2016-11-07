@@ -1,8 +1,8 @@
 <?php require_once '../src/init.php';
-/**********************************************\
-* Copyright (c) 2014 Manolis Agkopian          *
-* See the file LICENCE for copying permission. *
-\**********************************************/
+/************************************************\
+ * Copyright (c) 2016 Manolis Agkopian          *
+ * See the file LICENCE for copying permission. *
+\************************************************/
 
 if ( $user->isVerified() ) {
 	header('Location: /');
