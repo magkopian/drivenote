@@ -4,7 +4,7 @@
 \**********************************************/
 
 /*Stylesheet Reset-Preset*/
-html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td {
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td {
 	margin: 0;
 	padding: 0;
 	border: 0;
@@ -27,7 +27,7 @@ html, body {
 header {
 	height: 53px;
 	position: relative;
-	background-color: #EFEFEF;
+	background-color: #efefef;
 }
 
 #title {
@@ -40,8 +40,8 @@ header {
 #title a {
 	text-decoration: none;
 	color: #000;
-	  display: inline-block;
-  position: relative;
+	display: inline-block;
+	position: relative;
 
 }
 
@@ -75,9 +75,9 @@ header {
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
-	-moz-box-shadow: 4px 4px #DFE1D8;
-	-webkit-box-shadow: 4px 4px #DFE1D8;
-	box-shadow: 4px 4px #DFE1D8;
+	-moz-box-shadow: 4px 4px #dfe1d8;
+	-webkit-box-shadow: 4px 4px #dfe1d8;
+	box-shadow: 4px 4px #dfe1d8;
 	margin-bottom: 10px;
 	padding: 10px;
 	margin-left: auto;
@@ -96,58 +96,58 @@ header {
 }
 
 .info {
-	border: 1px solid #0E7FAD;
-	color: #0E7FAD;
-	background: #C0E9FA url("/images/notifier/info.png") no-repeat;
+	border: 1px solid #0e7fad;
+	color: #0e7fad;
+	background: #c0e9fa url("/images/notifier/info.png") no-repeat;
 	background-position: 30px 20px;
 }
 
 .success {
-	border: 1px solid #4F8746;
-	color: #4F8746;
-	background: #D4FFCD url("/images/notifier/success.png") no-repeat;
+	border: 1px solid #4f8746;
+	color: #4f8746;
+	background: #d4ffcd url("/images/notifier/success.png") no-repeat;
 	background-position: 30px 20px;
 }
 
 .error {
-	border: 1px solid #641F1A;
-	color: #641F1A;
-	background: #FF8888 url("/images/notifier/error.png") no-repeat;
+	border: 1px solid #641f1a;
+	color: #641f1a;
+	background: #f88 url("/images/notifier/error.png") no-repeat;
 	background-position: 30px 20px;
 }
 
 .warning {
-	border: 1px solid #9D9C49;
-	color: #9D9C49;
-	background: #FDFDCB url("/images/notifier/warning.png") no-repeat;
+	border: 1px solid #9d9c49;
+	color: #9d9c49;
+	background: #fdfdcb url("/images/notifier/warning.png") no-repeat;
 	background-position: 30px 20px;
 }
 
 .tip {
-	border: 1px solid #C77D10;
-	color: #C77D10;
-	background: #F9D69E url("/images/notifier/tip.png") no-repeat;
+	border: 1px solid #c77d10;
+	color: #c77d10;
+	background: #f9d69e url("/images/notifier/tip.png") no-repeat;
 	background-position: 30px 20px;
 }
 
 .secure {
-	border: 1px solid #9638F1;
-	color: #9638F1;
-	background: #E5CEFC url("/images/notifier/secure.png") no-repeat;
+	border: 1px solid #9638f1;
+	color: #9638f1;
+	background: #e5cefc url("/images/notifier/secure.png") no-repeat;
 	background-position: 30px 20px;
 }
 
 .message {
 	border: 1px solid #000;
 	color: #000;
-	background: #EFEFEF url("/images/notifier/message.png") no-repeat;
+	background: #efefef url("/images/notifier/message.png") no-repeat;
 	background-position: 30px 20px;
 }
 
 .download {
-	border: 1px solid #04B5EB;
-	color: #04B5EB;
-	background: #F7F7F7 url("/images/notifier/download.png") no-repeat;
+	border: 1px solid #04b5eb;
+	color: #04b5eb;
+	background: #f7f7f7 url("/images/notifier/download.png") no-repeat;
 	background-position: 30px 20px;
 }
 
@@ -193,16 +193,16 @@ header {
 
 /* Buttons */
 .button {
-	background: -webkit-linear-gradient(top, #4387FD, #4683EA);
-	background: -moz-linear-gradient(center top , #4387FD, #4683EA) repeat scroll 0 0 rgba(0, 0, 0, 0);
-	background: -ms-linear-gradient(top, #4387FD, #4683EA);
-	background: -o-linear-gradient(top, #4387FD, #4683EA);
-	background: linear-gradient(top, #4387FD, #4683EA);
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#4387FD,endColorstr=#4683EA,GradientType=1);
+	background: -webkit-linear-gradient(top, #4387fd, #4683ea);
+	background: -moz-linear-gradient(center top, #4387fd, #4683ea) repeat scroll 0 0 rgba(0, 0, 0, 0);
+	background: -ms-linear-gradient(top, #4387fd, #4683ea);
+	background: -o-linear-gradient(top, #4387fd, #4683ea);
+	background: linear-gradient(top, #4387fd, #4683ea);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#4387fd, endColorstr=#4683ea, GradientType=1);
 	-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-	border: 1px solid #FFF;
+	border: 1px solid #fff;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
@@ -213,7 +213,7 @@ header {
 	font-size: 1.5em;
 	text-decoration: none;
 	text-align: center;
-	color: #FFF;
+	color: #fff;
 	display: inline-block;
 	cursor: pointer;
 }
@@ -230,7 +230,7 @@ a.disabled {
 }
 
 .user-actions {
-	margin: 0 auto;
+	margin: 15px auto 0;
 }
 
 .button:last-child {
@@ -248,22 +248,22 @@ a.disabled {
 }
 
 .button:focus {
-	-moz-box-shadow: 0 0 0 1px #FFF inset;
-	-webkit-box-shadow: 0 0 0 1px #FFF inset;
-	box-shadow: 0 0 0 1px #FFF inset;
+	-moz-box-shadow: 0 0 0 1px #fff inset;
+	-webkit-box-shadow: 0 0 0 1px #fff inset;
+	box-shadow: 0 0 0 1px #fff inset;
 }
 
 .button:-moz-focus-inner {
-    border: 0 none;
+	border: 0 none;
 }
 
 .button:active {
-	background: -webkit-linear-gradient(top, #3C7AE4, #3F76D3);
-	background: -moz-linear-gradient(top, #3C7AE4, #3F76D3);
-	background: -ms-linear-gradient(top, #3C7AE4, #3F76D3);
-	background: -o-linear-gradient(top, #3C7AE4, #3F76D3);
-	background: linear-gradient(top, #3C7AE4, #3F76D3);
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#3C7AE4,endColorstr=#3F76D3,GradientType=1);
+	background: -webkit-linear-gradient(top, #3c7ae4, #3f76d3);
+	background: -moz-linear-gradient(top, #3c7ae4, #3f76d3);
+	background: -ms-linear-gradient(top, #3c7ae4, #3f76d3);
+	background: -o-linear-gradient(top, #3c7ae4, #3f76d3);
+	background: linear-gradient(top, #3c7ae4, #3f76d3);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#3c7ae4, endColorstr=#3f76d3, GradientType=1);
 	-moz-box-shadow: inset 0 2px 0 rgba(0, 0, 0, 0.15);
 	-webkit-box-shadow: inset 0 2px 0 rgba(0, 0, 0, 0.15);
 	box-shadow: inset 0 2px 0 rgba(0, 0, 0, 0.15);
@@ -275,7 +275,7 @@ input[type="text"], input[type="email"] {
 	border-radius: 3px;
 	font-size: 1.5em;
 	padding: 8px;
-	border: #CCC 1px solid;
+	border: #ccc 1px solid;
 }
 
 #academic_email {
@@ -298,20 +298,20 @@ td label {
 }
 
 .elements-per-page {
-	margin-top: 15px;	
+	margin-top: 15px;
 }
 
 /* Tables */
 table {
 	border-collapse: collapse;
 	border-spacing: 0;
-	border: 1px solid #CBCBCB;
+	border: 1px solid #cbcbcb;
 	empty-cells: show;
 	margin: 0 auto;
 }
 
 table thead {
-	background: none repeat scroll 0 0 #E0E0E0;
+	background: none repeat scroll 0 0 #e0e0e0;
 	color: #000;
 	text-align: left;
 	vertical-align: bottom;
@@ -322,7 +322,7 @@ table td:first-child, table th:first-child {
 }
 
 table th, table td {
-	border-left: 1px solid #CBCBCB;
+	border-left: 1px solid #cbcbcb;
 	border-width: 0 0 0 1px;
 	font-size: 1em;
 	margin: 0;
@@ -331,7 +331,7 @@ table th, table td {
 }
 
 tr.odd td {
-    background-color: #F2F2F2;
+	background-color: #f2f2f2;
 }
 
 /* Page Navigation*/
@@ -348,11 +348,11 @@ tr.odd td {
 
 .page-nav li a {
 	display: inline-block;
-	color: #000000;
-	background-color: #F2F2F2;
+	color: #000;
+	background-color: #f2f2f2;
 	padding: 3px 8px;
 	text-decoration: none;
-	border: 1px solid #CCC;
+	border: 1px solid #ccc;
 	border-radius: 2px;
 	transition: color 0.1s ease 0s;
 }
@@ -372,7 +372,7 @@ tr.odd td {
 /* Footer */
 footer {
 	min-height: 50px;
-	background-color: #EFEFEF;
+	background-color: #efefef;
 }
 
 footer p {
@@ -391,8 +391,8 @@ footer a:hover {
 }
 
 /* Mobile Devices */
-@-ms-viewport{
-  width: device-width;
+@-ms-viewport {
+	width: device-width;
 }
 
 @media (max-width: 900px) {
@@ -401,25 +401,24 @@ footer a:hover {
 	}
 }
 
-
 @media (max-width: 840px) {
 	table th, table td {
 		padding: 0.3em 0.6em;
-	}	
+	}
 }
 
 @media (max-width: 800px) {
 	table th, table td {
 		font-size: 0.9em;
 		padding: 0.3em 0.6em;
-	}	
+	}
 }
 
 @media (max-width: 740px) {
 	table th, table td {
 		font-size: 0.8em;
 		padding: 0.3em 0.6em;
-	}	
+	}
 }
 
 @media (max-width: 600px) {
@@ -432,17 +431,17 @@ footer a:hover {
 		margin: 5px 5px 5px 0;
 		font-size: 1.3em;
 	}
-	
+
 	input[type="text"], input[type="email"] {
 		font-size: 1.3em;
 		padding: 5px;
 	}
-	
+
 	#academic_email {
 		min-width: 260px;
 		margin-right: 5px;
 	}
-	
+
 	label {
 		font-size: 1.3em;
 		margin-right: 5px;

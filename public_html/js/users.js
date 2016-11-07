@@ -142,7 +142,6 @@ $(document).ready(function() {
 							$('a[data-action="grant-read"]').removeClass('disabled');
 						}
 
-						$('div.user-actions').width($('table#users').width()).css('text-align', 'left');
 					}
 				},
 				error: function(xhr, status, error) {
@@ -154,7 +153,5 @@ $(document).ready(function() {
 		
 		return false;
 	});
-	
-	$('div.user-actions').width($('table#users').width()).css('text-align', 'left');
 	
 });
