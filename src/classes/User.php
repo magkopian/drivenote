@@ -434,6 +434,7 @@ class User {
 				 `google_email` = :google_email,
 				 `academic_email` = :academic_email,
 				 `verified` = :verified,
+				 `approved` = :approved,
 				 `token` = :token
 				  WHERE `user_id` = :user_id';
 
