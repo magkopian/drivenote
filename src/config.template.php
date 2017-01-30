@@ -9,6 +9,7 @@ define('SCHOOL_NAME', 'School'); // Appears on the title and h1 tags of the main
 define('APP_NAME', 'Drivenote'); // The application name
 define('DESCRIPTION', 'The Google Drive permission management system for the students of School');
 define('DOMAIN', 'school.edu');
+define('HTTPS', true);
 define('ACADEMIC_EMAIL_FORMAT', '/^student[0-9]{5,7}@school\.edu$/'); // Regex that describes an academic email address, it's used for validation
 define('ACADEMIC_EMAIL_EXAMPLE', 'student@school.edu'); // It is used as a placeholder for the academic_email textbox
 define('GOOGLE_ANALYTICS_ID', false); // The Google Analytics ID e.g. 'UA-98765432-1'. If it is false Google Analytics is disabled.
@@ -25,7 +26,7 @@ define('DIRECTORY_ID', ''); // ID of the directory to get shared
 define('WEBAPP_CLIENT_ID', ''); // Client ID of web application
 define('WEBAPP_ACCOUNT_NAME', ''); // Email Address of web application
 define('WEBAPP_SECRET', ''); // Secret of web application
-define('WEBAPP_REDIRECT_URI', 'http://<domain>/oauth2callback.php'); // Callback URL of web application
+define('WEBAPP_REDIRECT_URI', 'https://<domain>/oauth2callback.php'); // Callback URL of web application
 define('WEBAPP_API_SCOPE', 'email'); // We just want the user's email
 
 // Database Credentials

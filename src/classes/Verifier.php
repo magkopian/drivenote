@@ -24,8 +24,13 @@ class Verifier {
 		
 		$token = md5(uniqid(null, true));
 		$this->user->setVerifyToken($token);
+
+		$protocol = 'http';
+		if ( HTTPS === true ) {
+			$protocol .= 's';
+		}
 		
-		return 'http://' . DOMAIN . '/verify-account.php?token=' . $token . '&uid=' . $this->user->getUserId();
+		return $protocol . '://' . DOMAIN . '/verify-account.php?token=' . $token . '&uid=' . $this->user->getUserId();
 	
 	}
 	
