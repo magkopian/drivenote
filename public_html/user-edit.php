@@ -57,8 +57,9 @@ try {
 
 		$userPermissions = [];
 		foreach ( $drivePermissions as $drivePermission ) {
-			$userPermissions[$drivePermission->getEmailAddress()] = $drivePermission->getRole();
-			$userPermissionsIds[$drivePermission->getEmailAddress()] = $drivePermission->getId();
+			$emailAddress = mb_strtolower($drivePermission->getEmailAddress(), 'UTF-8');
+			$userPermissions[$emailAddress] = $drivePermission->getRole();
+			$userPermissionsIds[$emailAddress] = $drivePermission->getId();
 		}
 
 		foreach ( $users['records'] as $user_data ) {

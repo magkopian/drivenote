@@ -126,7 +126,7 @@ class GoogleAuth extends GoogleService {
 					
 				$preparedStatement->execute( array(
 					':google_id' => $userData['payload']['sub'],
-					':google_email' => $userData['payload']['email']
+					':google_email' =>  mb_strtolower($userData['payload']['email'], 'UTF-8')
 				));
 					
 				return $this->db->lastInsertId();

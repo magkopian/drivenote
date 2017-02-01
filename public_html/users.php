@@ -49,9 +49,10 @@ try {
 	
 	$userPermissions = array();
 	foreach ( $drivePermissions as $drivePermission ) {
-		$userPermissions[$drivePermission->getEmailAddress()] = array (
+		$emailAddress = mb_strtolower($drivePermission->getEmailAddress(), 'UTF-8');
+		$userPermissions[$emailAddress] = array (
 			'name' => $drivePermission->getDisplayName(),
-			'email' => $drivePermission->getEmailAddress(),
+			'email' => $emailAddress,
 			'role' => $drivePermission->getRole()
 		);
 	}
